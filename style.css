@@ -246,3 +246,9 @@ a.title:hover {
 /*a:active {
     text-decoration: none;
 }*/
+
+.err_msg
+{
+	color:red; 
+	text-decoration:underline;
+}
