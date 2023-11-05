@@ -9,7 +9,7 @@
   [Locked] [bit] NULL,
   [Reported] [bit] NULL,
   [Pin] [bit] NULL,
-  [Post_Date] [datetime] NOT NULL,
+  [Post_Date] [date] NOT NULL,
   [Comments] [int] NOT NULL,
   CONSTRAINT [PK_Posts] PRIMARY KEY CLUSTERED ([Post_ID])
 )
