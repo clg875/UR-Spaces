@@ -5,7 +5,7 @@
   [Likes] [int] NULL,
   [PIn] [bit] NULL,
   [Reported] [bit] NULL,
-  [Contents] [nvarchar](max) NOT NULL,
+  [Com_Contents] [nvarchar](max) NOT NULL,
   [Com_Date] [datetime] NOT NULL,
   CONSTRAINT [PK_Comments] PRIMARY KEY CLUSTERED ([Comment_ID])
 )
