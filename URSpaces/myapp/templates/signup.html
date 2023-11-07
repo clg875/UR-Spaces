@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>UR Spaces</title>
+    <link href="static/style.css" rel="stylesheet" type="text/css" />
+    <script src="https://kit.fontawesome.com/1d7b5c0471.js" crossorigin="anonymous"></script>
+</head>
+    
+<body>
+  <script src="script.js"></script>
+  <div id="container">
+    <header>
+      <a href="index.html" class="title">UR Spaces</a>
+      <h1>SIGN UP</h1>
+    </header>
+      
+    <aside>
+      <div class="user-panel">
+        <!--<i class="fa-regular fa-circle-user"></i><a href="user.html"> Username </a> 
+        <i class="fa-solid fa-gear"></i><a href="setting.html"> Settings </a>
+        <i class="fa-solid fa-arrow-right-from-bracket"></i><a href="login.html"> Log out </a>-->
+      </div>
+    </aside>
+      
+    <main>
+        <form class="info" id="form" method="post">
+            <table>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td><label id="msg_email" class="err_msg"></label></td>
+                </tr>
+                <tr>
+                    <td>Email: </td>
+                    <td><input type="email" name="email"></td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td><label id="msg_pwd" class="err_msg"></label></td>
+                </tr>
+                <tr>
+                    <td>Password: </td>
+                    <td><input type="password" name="pwd"></td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td><label id="msg_cpwd" class="err_msg"></label></td>
+                </tr>
+                <tr>
+                    <td>Comfirm Password: </td>
+                    <td><input type="password" name="cpwd"></td>
+                </tr>
+            </table>
+
+            <p>
+                <input type="submit" value="SignUp" class="btn">
+                <input type="reset" value="Reset" class="btn">
+            </p>
+            <a href="login.html"> Already have an account? Login! </a>
+        </form>
+    </main>
+      
+    <footer>
+      <a href="help.html">Help</a>
+      <a href="service.html">Terms of Service</a>
+      <a href="about.html">About</a>
+    </footer>
+  </div>
+</body>
+</html>
