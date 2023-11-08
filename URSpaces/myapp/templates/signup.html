@@ -10,10 +10,10 @@
 </head>
     
 <body>
-  <script src="script.js"></script>
+  <!-- <script src="script.js"></script> -->
   <div id="container">
     <header>
-      <a href="index.html" class="title">UR Spaces</a>
+      <a href="{% url 'index' %}" class="title">UR Spaces</a>
       <h1>SIGN UP</h1>
     </header>
       
@@ -27,22 +27,40 @@
       
     <main>
         <form class="info" id="form" method="post">
-            <table>
-                <tr>
+          {% csrf_token %}
+            
+              {% for field in form %}
+              <p>
+                {{ field.label_tag }}<br>
+                {{ field }}
+                {% if field.help_text %}
+                  <small style="color: grey">{{ field.help_text }}</small>
+                {% endif %}
+              {% for error in field.errors %}
+              <p style="color: red">{{ error }}</p>
+              {% endfor %}
+                </p>
+              {% endfor %}
+                <!-- <table>
+                  <tr>
                     <td>&nbsp;</td>
                     <td><label id="msg_email" class="err_msg"></label></td>
                 </tr>
                 <tr>
+                  <td>Username: </td>
+                  <td><input type="username" name="username" value = "{{ username }}"></td>
+              </tr>
+                 <tr>
                     <td>Email: </td>
-                    <td><input type="email" name="email"></td>
-                </tr>
+                    <td><input type="email" name="email" value = "{{ email }}"></td>
+                </tr> 
                 <tr>
                     <td>&nbsp;</td>
                     <td><label id="msg_pwd" class="err_msg"></label></td>
                 </tr>
                 <tr>
                     <td>Password: </td>
-                    <td><input type="password" name="pwd"></td>
+                    <td><input type="password" name="pwd" value = "{{ password }}"></td>
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
@@ -50,9 +68,9 @@
                 </tr>
                 <tr>
                     <td>Comfirm Password: </td>
-                    <td><input type="password" name="cpwd"></td>
+                    <td><input type="password" name="cpwd" value = "{{ cpassword }}"></td>
                 </tr>
-            </table>
+            </table> -->
 
             <p>
                 <input type="submit" value="SignUp" class="btn">

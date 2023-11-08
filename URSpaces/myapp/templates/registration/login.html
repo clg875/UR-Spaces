@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>UR Spaces</title>
+    <link rel="stylesheet" href="static/style.css"/>
+    <script src="https://kit.fontawesome.com/1d7b5c0471.js" crossorigin="anonymous"></script>
+</head>
+
+  <!-- <script src="script.js"></script> -->
+  <div id="container">
+    <header>
+      <a href="{% url 'index' %}" class="title">UR Spaces</a>
+      <h1>LOGIN</h1>
+    </header> 
+
+    <!-- <aside>
+      <div class="user-panel">
+        <i class="fa-regular fa-circle-user"></i><a href="user.html"> Username </a> 
+        <i class="fa-solid fa-gear"></i><a href="setting.html"> Settings </a>
+        <i class="fa-solid fa-arrow-right-from-bracket"></i><a href="login.html"> Log out </a>
+      </div>
+    </aside>  -->
+    <main>
+        <form class="info" id="form" method="post" >
+          {% csrf_token %}
+            <table>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td><label id="msg_loginEmail" class="err_msg"></label></td>
+                </tr>
+                <tr>
+                    <td>Username: </td>
+                    <td><input type="text" name="username" value = "{{ username }}"></td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td><label id="msg_loginPwd" class="err_msg"></label></td>
+                </tr>
+                <tr>
+                    <td>Password: </td>
+                    <td><input type="password" name="pwd" value = "{{ password }}"></td>
+                </tr>
+            </table> 
+
+            <p>
+                <input type="submit" name="Login" value="Login" class="btn">
+                <input type="reset" name="Reset" value="Reset" class="btn">
+            </p>  
+            <a href="signup.html"> Don't have an account? Sign up! </a>
+        </form>
+        
+    </main>
+
+    <footer>
+      <a href="help.html">Help</a>
+      <a href="service.html">Terms of Service</a>
+      <a href="about.html">About</a>
+    </footer>
+  </div>
+</body>
+</html> 
+
+

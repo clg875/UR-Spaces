@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title>UR Spaces</title>
+        <link rel="stylesheet" href="static/style.css"/>
+        <script src="https://kit.fontawesome.com/1d7b5c0471.js" crossorigin="anonymous"></script>
+    </head>
+
+  <body>
+    <div id="container">
+        <header>
+          <a href="{% url 'index' %}" class="title">UR Spaces</a>
+          {% block title %}
+          {% endblock %}
+        </header>
+    {% block main%}
+      <!-- insert default navigation text for every page -->
+    {% endblock %}
+    {% block content %}
+      <!-- default content text (typically empty) -->
+    {% endblock %}
+
+    <footer>
+        <a href="help.html">Help</a>
+        <a href="service.html">Terms of Service</a>
+        <a href="about.html">About</a>
+      </footer>
+    </div>
+  </body>
+</html>

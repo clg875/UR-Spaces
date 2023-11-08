@@ -1,13 +1,15 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 
 # Create your models here.
 
-class User(models.Model):
-    User_ID = models.IntegerField(primary_key=True)
-    user_name = models.CharField(max_length=100)
-    email_address= models.CharField(max_length=100)
-    password = models.CharField(max_length=50)
-    user_date = models.DateTimeField()
+#class User(models.Model):
+   # User_ID = models.IntegerField(primary_key=True)
+   # user_name = models.CharField(max_length=100)
+   # email_address= models.CharField(max_length=100)
+  #  password = models.CharField(max_length=50)
+   # user_date = models.DateTimeField()
 
 class Posts(models.Model):
     Post_ID = models.IntegerField(primary_key=True)
@@ -41,13 +43,13 @@ class Likes(models.Model):
 
 
 class Moderator(models.Model):
-    User_ID = models.ForeignKey(User, on_delete=models.CASCADE)
+    User_ID = models.OneToOneField(User, on_delete=models.CASCADE)
     Special_P = models.BooleanField(default=True)
 
 class Student(models.Model):
-    User_ID = models.ForeignKey(User, on_delete=models.CASCADE)
+    User_ID = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.CharField(max_length=1500)
     banned = models.BooleanField(default=False)
-    avatar = models.FileField()
+    avatar = models.FileField(upload_to='avatars/', null=True, blank=True)
     reported = models.BooleanField(default=False)
 

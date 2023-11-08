@@ -13,7 +13,7 @@
   <script src="script.js"></script>
   <div id="container">
     <header>
-      <a href="index.html" class="title">UR Spaces</a>
+      <a href="{% url 'index' %}" class=title>UR Spaces</a>
       <h1>HOME</h1>
     </header>
       
@@ -21,7 +21,7 @@
       <div class="user-panel">
         <i class="fa-regular fa-circle-user"></i><a href="user.html"> Username </a> 
         <i class="fa-solid fa-gear"></i><a href="setting.html"> Settings </a>
-        <i class="fa-solid fa-arrow-right-from-bracket"></i><a href="login.html"> Log out </a>
+        <i class="fa-solid fa-arrow-right-from-bracket"></i><a href="{% url 'logout' %}">Log out </a>
       </div>
     </aside>
       
