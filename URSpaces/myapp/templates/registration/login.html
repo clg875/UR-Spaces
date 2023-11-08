@@ -12,7 +12,7 @@
   <!-- <script src="script.js"></script> -->
   <div id="container">
     <header>
-      <a href="{% url 'index' %}" class="title">UR Spaces</a>
+      <a  class="title">UR Spaces</a>
       <h1>LOGIN</h1>
     </header> 
 
@@ -26,24 +26,30 @@
     <main>
         <form class="info" id="form" method="post" >
           {% csrf_token %}
+          
             <table>
-                <tr>
+                <!-- <tr>
                     <td>&nbsp;</td>
                     <td><label id="msg_loginEmail" class="err_msg"></label></td>
-                </tr>
+                </tr> -->
+                {% if error %}
+                <p style="color: red">Username or password is incorrect. Please try again.</p>
+                {%endif%}
                 <tr>
                     <td>Username: </td>
                     <td><input type="text" name="username" value = "{{ username }}"></td>
-                </tr>
-                <tr>
+                </tr> 
+                <!-- <tr>
                     <td>&nbsp;</td>
                     <td><label id="msg_loginPwd" class="err_msg"></label></td>
-                </tr>
-                <tr>
+                </tr> -->
+               <tr>
                     <td>Password: </td>
                     <td><input type="password" name="pwd" value = "{{ password }}"></td>
                 </tr>
-            </table> 
+              
+            </table>  
+            
 
             <p>
                 <input type="submit" name="Login" value="Login" class="btn">
@@ -55,9 +61,9 @@
     </main>
 
     <footer>
-      <a href="help.html">Help</a>
+      <!-- <a href="help.html">Help</a>
       <a href="service.html">Terms of Service</a>
-      <a href="about.html">About</a>
+      <a href="about.html">About</a> -->
     </footer>
   </div>
 </body>

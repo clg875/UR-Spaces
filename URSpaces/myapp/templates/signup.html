@@ -13,7 +13,7 @@
   <!-- <script src="script.js"></script> -->
   <div id="container">
     <header>
-      <a href="{% url 'index' %}" class="title">UR Spaces</a>
+      <a class="title">UR Spaces</a>
       <h1>SIGN UP</h1>
     </header>
       
@@ -33,13 +33,13 @@
               <p>
                 {{ field.label_tag }}<br>
                 {{ field }}
-                {% if field.help_text %}
-                  <small style="color: grey">{{ field.help_text }}</small>
-                {% endif %}
               {% for error in field.errors %}
+              <!-- {% if field.help_text %}
+                  <small style="color: grey">{{ field.help_text }}</small>
+                {% endif %} -->
               <p style="color: red">{{ error }}</p>
               {% endfor %}
-                </p>
+              </p>
               {% endfor %}
                 <!-- <table>
                   <tr>
@@ -81,9 +81,9 @@
     </main>
       
     <footer>
-      <a href="help.html">Help</a>
+      <!-- <a href="help.html">Help</a>
       <a href="service.html">Terms of Service</a>
-      <a href="about.html">About</a>
+      <a href="about.html">About</a> -->
     </footer>
   </div>
 </body>

@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from myapp.forms import SignUpForm
-from .models import Posts, Comments, Likes, Moderator, Student
+from myapp.models import Student , SubForums, Posts, Comments, Likes, Moderator 
 from django.contrib.auth.models import User
 
 
@@ -17,14 +17,15 @@ def signin(request):
     password = request.POST.get('pwd')
     user = authenticate(request, username=username, password=password)
     if user is not None:
-        #(request, "registration/login.html")
         login(request, user)
-        # Redirect to a success page.
-        return render(request, "index.html")
+        return redirect('index')
+        # return render(request, "index.html")
         ...
     else:
-        # Return an 'invalid login' error message.
-        return render(request, "registration/login.html")
+        er = False
+        if username is not None and password is not None:
+            er = True
+        return render(request, "registration/login.html", {"error": er})
 
 #def login(request):
       #  return render(request, "registration/login.html")
@@ -37,7 +38,9 @@ def about(request):
     return render(request, "about.html")
 
 def index(request):
-    return render(request, "index.html")
+    sub = SubForums.objects.all()
+    return render(request, "index.html", {"indexs": sub})
+    #return render(request, "index.html")
 
 def posts(request):
     return render(request, "posts.html")
@@ -56,13 +59,19 @@ def signupPage(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
+            email = form.cleaned_data.get('email')
             username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=raw_password)
-            new_student = Student(User_ID = username)
+            account = User.objects.get(username = username)
+            account.email = email
+            account.save()
+            #raw_password = form.cleaned_data.get('password')
+            #user = authenticate(username=username, password=raw_password)
+            new_student = Student()
+            new_student.User_ID = User.objects.get(username = username)
+            new_student.bio = "Please add bio"
             new_student.save()
-            login(request, user)
-            return redirect('index')
+            #login(request, user)
+            return redirect('login')
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
@@ -70,5 +79,33 @@ def signupPage(request):
 def user(request):
     return render(request, "user.html")
 
+#not working yet
 def subforum(request):
-    return render(request, "subforum.html")
+     if request.method == 'POST':
+        selected = request.POST.get('Selected_forum')
+        sf = SubForums.objects.get(sub_name = selected)
+        try:
+            postsIn = Posts.objects.get(SubForum_ID = sf)
+        except: 
+            postsIn = None
+        return render(request, "subforum.html", {'sfor': postsIn, 'forum': sf})
+     else:
+         return render(request, "subforum.html")
+
+     
+    #  if postsIn is not None:
+    #     return render(request, "subforum.html", {'sfor': postsIn})
+    #  else:
+    #      return render(request, "subforum.html", {'sfor': sf})
+    # if request.method=='GET':
+    #     sku = request.GET.get('value')
+    #     postsIn = Posts.objects.get(SubForum_ID = sku)
+    #     return render(request, "subforum.html", {'sfor': postsIn})
+    
+        # if not :
+        #     return render(request, 'inventory/product.html')
+        # else:
+        #     # now you have the value of sku
+        #     # so you can continue with the rest
+        #     return render(request, 'some_other.html')
+     #return render(request, "subforum.html")

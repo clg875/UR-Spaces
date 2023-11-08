@@ -11,9 +11,13 @@ from django.contrib.auth.models import User
   #  password = models.CharField(max_length=50)
    # user_date = models.DateTimeField()
 
+class SubForums(models.Model):
+    sub_name = models.CharField(max_length=100)
+
 class Posts(models.Model):
     Post_ID = models.IntegerField(primary_key=True)
     User_ID = models.ForeignKey(User, on_delete=models.CASCADE)
+    SubForum_ID = models.ForeignKey(SubForums, default= 1, on_delete=models.CASCADE)
     post_name = models.CharField(max_length=250)
     post_sub_name = models.CharField(max_length=250)
     contents = models.CharField(max_length=1500)
@@ -48,7 +52,7 @@ class Moderator(models.Model):
 
 class Student(models.Model):
     User_ID = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.CharField(max_length=1500)
+    bio = models.CharField(max_length=1500, null=True)
     banned = models.BooleanField(default=False)
     avatar = models.FileField(upload_to='avatars/', null=True, blank=True)
     reported = models.BooleanField(default=False)
