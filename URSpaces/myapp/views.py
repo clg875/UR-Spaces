@@ -1,8 +1,8 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
-from myapp.forms import SignUpForm
-from myapp.models import Student , SubForums, Posts, Comments, Likes, Moderator 
+from myapp.forms import SignUpForm #, CreateNewPost
+from myapp.models import Student , SubForum, Posts, Comment, Like, Moderator 
 from django.contrib.auth.models import User
 
 
@@ -38,7 +38,7 @@ def about(request):
     return render(request, "about.html")
 
 def index(request):
-    sub = SubForums.objects.all()
+    sub = SubForum.objects.all()
     return render(request, "index.html", {"indexs": sub})
     #return render(request, "index.html")
 
@@ -77,20 +77,34 @@ def signupPage(request):
     return render(request, 'signup.html', {'form': form})
 
 def user(request):
-    return render(request, "user.html")
+    currentUser = request.user
+    #added this to check for moderator but should just make the page unaccessable for a moderator
+    try:
+        studentInfo = Student.objects.get(User_ID = currentUser)
+    except:
+        studentInfo = None
+    return render(request, "user.html",{'users': currentUser, 'profile': studentInfo})
+
 
 #not working yet
-def subforum(request):
-     if request.method == 'POST':
-        selected = request.POST.get('Selected_forum')
-        sf = SubForums.objects.get(sub_name = selected)
-        try:
-            postsIn = Posts.objects.get(SubForum_ID = sf)
-        except: 
-            postsIn = None
-        return render(request, "subforum.html", {'sfor': postsIn, 'forum': sf})
-     else:
-         return render(request, "subforum.html")
+def subforum(request, slug):
+    forum = get_object_or_404(SubForum, slug=slug)
+    context = {
+        "forum": forum
+
+    }
+    return render(request, "subforum.html", context)
+
+    #  if request.method == 'POST':
+    #     selected = request.POST.get('Selected_forum')
+    #     sf = SubForum.objects.get(sub_name = selected)
+    #     try:
+    #         postsIn = Posts.objects.get(SubForum_ID = sf)
+    #     except: 
+    #         postsIn = None
+    #     return render(request, "subforum.html", {'sfor': postsIn, 'forum': sf})
+    #  else:
+    #      return render(request, "subforum.html")
 
      
     #  if postsIn is not None:
@@ -109,3 +123,10 @@ def subforum(request):
         #     # so you can continue with the rest
         #     return render(request, 'some_other.html')
      #return render(request, "subforum.html")
+
+
+# def addPost(request):
+#     if request.method == 'POST':
+#         form = CreateNewPost(request.POST)
+#         if form.is_valid():
+

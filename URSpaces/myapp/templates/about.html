@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+
+{% extends 'base.html' %}
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -23,8 +25,12 @@
         <i class="fa-solid fa-gear"></i><a href="setting.html"> Settings </a>
         <i class="fa-solid fa-arrow-right-from-bracket"></i><a href="login.html"> Log out </a>
       </div>
-    </aside>
-
+    </aside> -->
+    {% block title %}
+    <h1>ABOUT</h1>
+    {% endblock %}
+    
+    {% block content %}
     <main>
         <section class="box">
         <div class="settings">
@@ -36,12 +42,13 @@
         </p>
       </section>
     </main>
+    {% endblock %}
 
-    <footer>
+    <!-- <footer>
       <a href="help.html">Help</a>
       <a href="service.html">Terms of Service</a>
       <a href="about.html">About</a>
     </footer>
   </div>
 </body>
-</html>
+</html> -->

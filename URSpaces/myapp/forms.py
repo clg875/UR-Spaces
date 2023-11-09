@@ -6,6 +6,10 @@ from django.contrib.auth.models import User
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(max_length=254, help_text='Required. Use a valid email address.')
 
+# class CreateNewPost(forms.Form):
+#     header = forms.CharField(label='Heading', max_length=250, error_messages='The heading cannot be blank or exceed 250 characters.'),
+#     content = forms.CharField(label='Body', max_length=1500, error_messages='The body cannot be blank or exceed 1500 characters.')
+
 # class SelectSubForum(forms.Form):
 #     selectedForum = forms.CharField(max_length=100)
 
