@@ -14,6 +14,29 @@
             <button type="submit", name="save", value="save">Save</button>
             <input type="button" value="Create New Post" class="btn2">
         </form> -->
+      <button type="submit", name="createPost", value="createPost">Create New Post</button>
+
+      <form action="." method="POST">
+        {% csrf_token %}
+        <section class="box">
+        <div class="forum-item">
+          <p> Post Header: </p> 
+        </div>
+        <div class="forum-item">
+          <textarea name="newHeader" cols="100" placeholder="Add post header..."></textarea>
+        </div>
+        <div class="forum-item">
+          <p> Contents: </p>
+        </div>
+        <div class="forum-item">
+          <textarea name="newContents"  cols="130" rows="3" placeholder="Input text here..."></textarea>
+        </div>
+        <div class="forum-item">
+          <input type="submit" value="Submit" name="newPost_form">
+        </div>
+      </section>
+    </form>
+
       {% for field in post %}
         <section class="box">
         <div class="forum-item">   

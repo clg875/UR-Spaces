@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from myapp.models import Student
+from myapp.models import Student, Posts, Comment
 
 
 class SignUpForm(UserCreationForm):
@@ -19,10 +19,11 @@ class UpdateProfileForm(forms.ModelForm):
         fields = ("avatar", "bio" )
 
 
+class CreateNewPost(forms.ModelForm):
 
-# class CreateNewPost(forms.Form):
-#     header = forms.CharField(label='Heading', max_length=250, error_messages='The heading cannot be blank or exceed 250 characters.'),
-#     content = forms.CharField(label='Body', max_length=1500, error_messages='The body cannot be blank or exceed 1500 characters.')
+    class Meta:
+        model = Posts
+        fields = ("post_name", "contents" )
 
 # class SelectSubForum(forms.Form):
 #     selectedForum = forms.CharField(max_length=100)

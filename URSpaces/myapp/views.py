@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
-from myapp.forms import SignUpForm , UpdateProfileForm#, CreateNewPost
+from myapp.forms import SignUpForm , UpdateProfileForm , CreateNewPost
 from myapp.models import Student , SubForum, Posts, Comment, Like, Moderator 
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -64,6 +64,16 @@ def index(request):
 def posts(request, slug):
     post = get_object_or_404(Posts, slug=slug)
     comments = Comment.objects.filter(Post_ID = post)
+
+    user = request.user
+    currentUser = User.objects.get(username = user)
+    student = Student.objects.get(User_ID = currentUser)
+    if "newComment_form" in request.POST:
+        content = request.POST.get("newContents")
+
+        new_comment, created = Comment.objects.get_or_create(User_ID = student, Post_ID = post, com_contents = content)
+        
+
     context = {
         "post":post,
         "comments": comments
@@ -132,6 +142,15 @@ def user(request, slug):
 def subforum(request, slug):
     forum = get_object_or_404(SubForum, slug=slug)
     post = Posts.objects.filter(SubForum_ID = forum)
+    user = request.user
+    currentUser = User.objects.get(username = user)
+    student = Student.objects.get(User_ID = currentUser)
+
+    if "newPost_form" in request.POST:
+        header = request.POST.get("newHeader")
+        content = request.POST.get("newContents")
+
+        new_post, created = Posts.objects.get_or_create(User_ID = student, SubForum_ID = forum, post_name = header, contents = content)
 
     context = {
         "forum": forum,

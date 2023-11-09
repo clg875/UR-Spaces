@@ -54,7 +54,7 @@ class Posts(models.Model):
     SubForum_ID = models.ForeignKey(SubForum, default= 1, on_delete=models.CASCADE)
     post_name = models.CharField(max_length=400)
     contents = models.TextField()
-    count_likes = models.IntegerField()
+    count_likes = models.IntegerField(default=0, blank=True, )
     locked = models.BooleanField(default=False)
     pin = models.BooleanField(default=False)
     reported = models.BooleanField(default=False)
@@ -80,11 +80,11 @@ class Comment(models.Model):
     #Comment_ID = models.IntegerField(primary_key=True)
     Post_ID = models.ForeignKey(Posts, on_delete=models.CASCADE)
     User_ID = models.ForeignKey(Student, on_delete=models.CASCADE)
-    count_likes = models.IntegerField()
+    count_likes = models.IntegerField(default=0)
     pin = models.BooleanField(default=False)
     reported = models.BooleanField(default=False)
     com_contents = models.CharField(max_length=500)
-    com_date = models.DateTimeField()
+    com_date = models.DateTimeField(auto_now_add=True)
 
 class Like(models.Model):
     #Like_ID = models.IntegerField(primary_key=True)

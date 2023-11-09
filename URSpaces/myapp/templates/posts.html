@@ -22,6 +22,20 @@
           <input type="button" value="Delete Post" class="btn2">
           <input type="button" value="Ban User" class="btn2">
       </section>
+
+      <button type="submit", name="addComment", value="addComment">Add Comment</button>
+
+      <form action="." method="POST">
+        {% csrf_token %}
+        <section class="sub-box">         
+        <div class="forum-item">
+          <textarea name="newContents"  cols="130" rows="3" placeholder="Input comment here..."></textarea>
+        </div>
+        <div class="forum-item">
+          <input type="submit" value="Submit" name="newComment_form">
+        </div>
+      </section>
+    </form>
         
       {% for field in comments %}
         <section class="sub-box">
