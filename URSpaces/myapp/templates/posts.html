@@ -19,23 +19,15 @@
         <div class="post-item">
           <input type="button" value="Likes: 10" class="btn1"><i class="fa-regular fa-heart"></i>
           <p> Comments: {{post.num_comments}} </p>
+          {%if  post.User_ID.User_ID.username  == request.user.username%}
           <input type="button" value="Delete Post" class="btn2">
-          <input type="button" value="Ban User" class="btn2">
+          <input type="button" value="Edit Post" class="btn2">
+          {%else%}
+          <input type="button" value="Report User" class="btn2">
+          {% endif %}
       </section>
 
-      <button type="submit", name="addComment", value="addComment">Add Comment</button>
-
-      <form action="." method="POST">
-        {% csrf_token %}
-        <section class="sub-box">         
-        <div class="forum-item">
-          <textarea name="newContents"  cols="130" rows="3" placeholder="Input comment here..."></textarea>
-        </div>
-        <div class="forum-item">
-          <input type="submit" value="Submit" name="newComment_form">
-        </div>
-      </section>
-    </form>
+      <!-- <button type="submit", name="addComment", value="addComment">Add Comment</button> -->
         
       {% for field in comments %}
         <section class="sub-box">
@@ -48,9 +40,26 @@
             </div>
             <div class="post-item">
               <input type="button" value="Likes: 10" class="btn1"><i class="fa-regular fa-heart"></i>
+              {%if  field.User_ID.User_ID.username  == request.user.username%}
               <input type="button" value="Delete Comment" class="btn2">
-              <input type="button" value="Ban User" class="btn2">
+              <input type="button" value="Edit Comment" class="btn2">
+              {%else%}
+              <input type="button" value="Report User" class="btn2">
+              {% endif %}
           </section>
           {% endfor %}
+
+          <form action="." method="POST">
+            {% csrf_token %}
+            <section class="sub-box">         
+            <div class="forum-item">
+              <textarea name="newContents"  cols="130" rows="3" placeholder="Input comment here..."></textarea>
+            </div>
+            <div class="forum-item">
+              <input type="submit" value="Submit" name="newComment_form">
+            </div>
+          </section>
+        </form>
+
     </main>
     {% endblock %}
