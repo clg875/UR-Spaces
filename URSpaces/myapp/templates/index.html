@@ -14,7 +14,7 @@
         {% for field in indexs %}
         <div class="forum-item">
           <a href="{{field.get_url}}" > {{ field.sub_name }} </a> 
-          <span> Topics: 10 </span>
+          <span> Topics:  {{field.num_posts}} </span>
         </div>
         {% endfor %}
       </section>

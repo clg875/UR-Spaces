@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+    {% block title %}
+
+      <h1>{{user.username}}</h1>
+    {% endblock %}
+    
+    {% block content %}
+    <main>
+      <!-- not working correctly yet -->
+    {% if student is not None %}
+    
+        <section class="box">
+            <div class="forum-item">
+                <a> {{user.username}} </a>
+                <span> {{user.date_joined}}</span>
+            </div>
+            <div class="forum-item">
+              <span> {{student.bio}}</span>
+            </div>
+          </section>
+
+            <section class="sub-box">
+                <div class="forum-item">
+                    <p> user </p>
+                    <span> date </span>
+                </div>
+                <div class="forum-item">
+                  <span> Posts Contents </span>
+                </div>
+            </section>
+            {%else%}
+              <div class="forum-item">
+                <p > This is a moderator profile. You have the ability to ban users, pin posts, 
+                  lock posts, and delete unwanted content</p>
+              </div>
+            {%endif%}
+    </main>
+    
+    {% endblock %}

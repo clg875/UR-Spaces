@@ -13,7 +13,7 @@ class Moderator(models.Model):
 
 class Student(models.Model):
     User_ID = models.ForeignKey(User, on_delete=models.CASCADE)
-    bio = models.TextField()
+    bio = models.TextField(default="Please add bio in settings")
     banned = models.BooleanField(default=False)
     avatar =ResizedImageField(size=[50, 80], quality=100, upload_to="authors", default=None, null=True, blank=True)
     reported = models.BooleanField(default=False)
@@ -23,6 +23,11 @@ class Student(models.Model):
         if not self.slug:
             self.slug = slugify(self.User_ID)
             super(Student, self).save(*args, **kwargs)
+
+    def get_url(self):
+        return reverse("user", kwargs={
+            "slug":self.slug
+        })
 
 class SubForum(models.Model):
     sub_name = models.CharField(max_length=100)
@@ -37,30 +42,44 @@ class SubForum(models.Model):
         return reverse("subforum", kwargs={
             "slug":self.slug
         })
+    
+    @property
+    def num_posts(self):
+        return Posts.objects.filter(SubForum_ID = self).count()
+    
+
 
 class Posts(models.Model):
     User_ID = models.ForeignKey(Student, on_delete=models.CASCADE)
     SubForum_ID = models.ForeignKey(SubForum, default= 1, on_delete=models.CASCADE)
     post_name = models.CharField(max_length=400)
-    post_sub_name = models.CharField(max_length=250)
     contents = models.TextField()
     count_likes = models.IntegerField()
     locked = models.BooleanField(default=False)
     pin = models.BooleanField(default=False)
     reported = models.BooleanField(default=False)
     post_date = models.DateTimeField(auto_now_add=True)
-    com_count = models.IntegerField()
+    #com_count = models.IntegerField()
     slug = models.SlugField(max_length=400, unique=True, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.post_name)
             super(Posts, self).save(*args, **kwargs)
-
+    
+    def get_url(self):
+        return reverse("posts", kwargs={
+            "slug":self.slug
+        })
+    
+    @property
+    def num_comments(self):
+        return Comment.objects.filter(Post_ID = self).count()
+    
 class Comment(models.Model):
     #Comment_ID = models.IntegerField(primary_key=True)
     Post_ID = models.ForeignKey(Posts, on_delete=models.CASCADE)
-    User_ID = models.ForeignKey(User, on_delete=models.CASCADE)
+    User_ID = models.ForeignKey(Student, on_delete=models.CASCADE)
     count_likes = models.IntegerField()
     pin = models.BooleanField(default=False)
     reported = models.BooleanField(default=False)

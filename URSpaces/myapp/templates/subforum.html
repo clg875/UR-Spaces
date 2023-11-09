@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
 
     {% block title %}
-    <h1>Forum</h1>
+    <h1>{{forum.sub_name}}</h1>
     {% endblock %}
-    
     {% block content %}
 
     <main>
@@ -15,21 +14,21 @@
             <button type="submit", name="save", value="save">Save</button>
             <input type="button" value="Create New Post" class="btn2">
         </form> -->
-      {% for field in sfor %}
+      {% for field in post %}
         <section class="box">
         <div class="forum-item">   
-          <a href="user.html"> {{field.User.username}} </a>
-            <span> October 23, 2023 11:56 </span>
+          <a href="{{field.User_ID.get_url}}" > {{field.User_ID.User_ID.username}} </a>
+            <span> {{field.post_date}} </span>
         </div>
         <div class="forum-item">
-          <a href="posts.html"> {{field.post_name}}  </a>
+          <a href="{{field.get_url}}"> {{field.post_name}}  </a>
           </div>
         <div class="forum-item">
           <span> {{field.contents}}</span>
         </div>
         <div class="post-item">
           <input type="button" value="Likes: 10" class="btn1"><i class="fa-regular fa-heart"></i>
-          <a href="posts.html"> Comments: 5 </a>
+          <a href="posts.html"> Comments: {{field.num_comments}} </a>
           <input type="button" value="Delete Post" class="btn2">
           <input type="button" value="Report User" class="btn2">
       </section>

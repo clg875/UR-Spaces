@@ -1,32 +1,39 @@
 {% extends 'base.html' %}
 
     {% block title %}
-    <h1>{{user.username}}</h1>
+      <h1>{{student.User_ID.username}}</h1>
     {% endblock %}
     
     {% block content %}
-
     <main>
+
+    
         <section class="box">
             <div class="forum-item">
-                <a> {{users.username}} </a>
-                <span> {{users.date}}</span>
+                <a> {{student.User_ID.username}} </a>
+                <span> {{student.User_ID.date}}</span>
             </div>
             <div class="forum-item">
-              <span> {{profile.bio}}</span>
+              <span> {{student.bio}}</span>
             </div>
             <div class="user-item">
               <input type="button" value="Ban User" class="btn2">
           </section>
 
+          {% for field in post %}
             <section class="sub-box">
                 <div class="forum-item">
-                    <a href="user.html"> Username </a>
-                    <span> October 23, 2023 11:56 </span>
+                    <a> {{field.User_ID.User_ID.username}} </a>
+                    <span> {{field.post_date}} </span>
                 </div>
                 <div class="forum-item">
-                  <span> Posts Contents </span>
-                </div>
+                    <a href="{{field.get_url}}"> {{field.post_name}}  </a>
+                  </div>
+                  <div class="forum-item">
+                    <span> {{field.contents}} </span>
+                  </div>
             </section>
+            {% endfor %}
     </main>
+    
     {% endblock %}

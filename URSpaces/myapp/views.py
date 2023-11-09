@@ -9,9 +9,6 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 
-def base(request):
-    return render(request, "base.html")
-
 def signin(request):
     username = request.POST.get('username')
     password = request.POST.get('pwd')
@@ -26,34 +23,7 @@ def signin(request):
         if username is not None and password is not None:
             er = True
         return render(request, "registration/login.html", {"error": er})
-
-#def login(request):
-      #  return render(request, "registration/login.html")
-        ...
-
-def help(request):
-    return render(request, "help.html")
-
-def about(request):
-    return render(request, "about.html")
-
-def index(request):
-    sub = SubForum.objects.all()
-    return render(request, "index.html", {"indexs": sub})
-    #return render(request, "index.html")
-
-def posts(request):
-    return render(request, "posts.html")
-
-def service(request):
-    return render(request, "service.html")
-
-def settings(request):
-    return render(request, "setting.html")
-
-#def signup(request):
-    #return render(request, "signup.html")
-
+    
 def signupPage(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -76,57 +46,72 @@ def signupPage(request):
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
 
-def user(request):
-    currentUser = request.user
+#def login(request):
+#  return render(request, "registration/login.html")
+
+def help(request):
+    return render(request, "help.html")
+
+def about(request):
+    return render(request, "about.html")
+
+def index(request):
+    sub = SubForum.objects.all()
+    return render(request, "index.html", {"indexs": sub})
+    #return render(request, "index.html")
+
+def posts(request, slug):
+    post = get_object_or_404(Posts, slug=slug)
+    comments = Comment.objects.filter(Post_ID = post)
+    context = {
+        "post":post,
+        "comments": comments
+    }
+    return render(request, "posts.html", context)
+
+def service(request):
+    return render(request, "service.html")
+
+def settings(request):
+    return render(request, "setting.html")
+
+#not working correctly yet
+def profile(request):
+    user = request.user.username
+    currentUser = User.objects.get(username = user)
+    # try:
+    student = Student.objects.filter(User_ID = currentUser)
+    moderator = Moderator.objects.filter(User_ID = currentUser)
+    # except:
+    #     student = None
+    #     moderator = None
+    context = {
+        "student": student,
+        "moderator" : moderator
+
+    }
+    return render(request, "profile.html", context)
+
+def user(request, slug):
+    student= get_object_or_404(Student, slug=slug)
+    post = Posts.objects.filter(User_ID = student)
+    context = {
+        "student": student,
+        "post": post
+    }
     #added this to check for moderator but should just make the page unaccessable for a moderator
-    try:
-        studentInfo = Student.objects.get(User_ID = currentUser)
-    except:
-        studentInfo = None
-    return render(request, "user.html",{'users': currentUser, 'profile': studentInfo})
+    return render(request, "user.html", context)
+ 
 
-
-#not working yet
 def subforum(request, slug):
     forum = get_object_or_404(SubForum, slug=slug)
+    post = Posts.objects.filter(SubForum_ID = forum)
+
     context = {
-        "forum": forum
+        "forum": forum,
+        "post" : post
 
     }
     return render(request, "subforum.html", context)
 
-    #  if request.method == 'POST':
-    #     selected = request.POST.get('Selected_forum')
-    #     sf = SubForum.objects.get(sub_name = selected)
-    #     try:
-    #         postsIn = Posts.objects.get(SubForum_ID = sf)
-    #     except: 
-    #         postsIn = None
-    #     return render(request, "subforum.html", {'sfor': postsIn, 'forum': sf})
-    #  else:
-    #      return render(request, "subforum.html")
-
-     
-    #  if postsIn is not None:
-    #     return render(request, "subforum.html", {'sfor': postsIn})
-    #  else:
-    #      return render(request, "subforum.html", {'sfor': sf})
-    # if request.method=='GET':
-    #     sku = request.GET.get('value')
-    #     postsIn = Posts.objects.get(SubForum_ID = sku)
-    #     return render(request, "subforum.html", {'sfor': postsIn})
-    
-        # if not :
-        #     return render(request, 'inventory/product.html')
-        # else:
-        #     # now you have the value of sku
-        #     # so you can continue with the rest
-        #     return render(request, 'some_other.html')
-     #return render(request, "subforum.html")
-
-
-# def addPost(request):
-#     if request.method == 'POST':
-#         form = CreateNewPost(request.POST)
-#         if form.is_valid():
 

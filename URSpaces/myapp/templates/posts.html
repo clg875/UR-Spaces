@@ -1,37 +1,42 @@
 {% extends 'base.html' %}
     {% block title %}
-    <h1>Posts</h1>
+    <h1>Post</h1>
     {% endblock %}
     
     {% block content %}
     <main>
         <section class="box">
         <div class="forum-item">
-            <a href="user.html"> Username </a>
-            <span> October 23, 2023 11:56 </span>
+            <a href="{{post.User_ID.get_url}}"> {{post.User_ID.User_ID.username}} </a>
+            <span> {{post.post_date}} </span>
         </div>
         <div class="forum-item">
-          <span> Post Contents </span>
+          <span> {{post.post_name}} </span>
+        </div>
+        <div class="forum-item">
+          <span> {{post.contents}} </span>
         </div>
         <div class="post-item">
           <input type="button" value="Likes: 10" class="btn1"><i class="fa-regular fa-heart"></i>
-          <a href="#"> Comments: 5 </a>
+          <p> Comments: {{post.num_comments}} </p>
           <input type="button" value="Delete Post" class="btn2">
           <input type="button" value="Ban User" class="btn2">
       </section>
         
+      {% for field in comments %}
         <section class="sub-box">
             <div class="forum-item">
-                <a href="user.html"> Username </a>
-                <span> October 23, 2023 11:56 </span>
+                <a href="{{field.User_ID.get_url}}"> {{field.User_ID.User_ID.username}}  </a>
+                <span> {{field.com_date}} </span>
             </div>
             <div class="forum-item">
-              <span> Comments Contents </span>
+              <span> {{field.com_contents}} </span>
             </div>
             <div class="post-item">
               <input type="button" value="Likes: 10" class="btn1"><i class="fa-regular fa-heart"></i>
               <input type="button" value="Delete Comment" class="btn2">
               <input type="button" value="Ban User" class="btn2">
           </section>
+          {% endfor %}
     </main>
     {% endblock %}
