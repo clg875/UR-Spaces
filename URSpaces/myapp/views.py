@@ -46,21 +46,25 @@ def signupPage(request):
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
 
-
+@login_required
 def help(request):
     return render(request, "help.html")
 
+@login_required
 def service(request):
     return render(request, "service.html")
 
+@login_required
 def about(request):
     return render(request, "about.html")
 
+@login_required
 def index(request):
     sub = SubForum.objects.all()
     return render(request, "index.html", {"indexs": sub})
     #return render(request, "index.html")
 
+@login_required
 def posts(request, slug):
     post = get_object_or_404(Posts, slug=slug)
     comments = Comment.objects.filter(Post_ID = post)
@@ -103,6 +107,7 @@ def settings(request):
     return render(request, "registration/setting.html", context)
 
 #not working correctly yet
+@login_required
 def profile(request):
     user = request.user
     currentUser = User.objects.get(username = user)
@@ -128,6 +133,7 @@ def profile(request):
     }
     return render(request, "profile.html", context)
 
+@login_required
 def user(request, slug):
     student= get_object_or_404(Student, slug=slug)
     post = Posts.objects.filter(User_ID = student)
@@ -139,22 +145,31 @@ def user(request, slug):
     return render(request, "user.html", context)
  
 
+#error with empty values 
+@login_required
 def subforum(request, slug):
     forum = get_object_or_404(SubForum, slug=slug)
     post = Posts.objects.filter(SubForum_ID = forum)
     user = request.user
     currentUser = User.objects.get(username = user)
-    student = Student.objects.get(User_ID = currentUser)
+    error = False
 
-    if "newPost_form" in request.POST:
-        header = request.POST.get("newHeader")
-        content = request.POST.get("newContents")
+   #change this to check for moderator field
+    if currentUser.is_staff != True:
+        student = Student.objects.get(User_ID = currentUser)
 
-        new_post, created = Posts.objects.get_or_create(User_ID = student, SubForum_ID = forum, post_name = header, contents = content)
+        if "newPost_form" in request.POST:
+            header = request.POST.get("newHeader")
+            content = request.POST.get("newContents")
 
+            if header is not None and content is not None:
+                new_post, created = Posts.objects.get_or_create(User_ID = student, SubForum_ID = forum, post_name = header, contents = content)
+            else:
+                error = True
     context = {
         "forum": forum,
-        "post" : post
+        "post" : post,
+        "error": error
 
     }
     return render(request, "subforum.html", context)
