@@ -12,7 +12,7 @@
     
         <section class="box">
             <div class="forum-item">
-                <a> {{user.username}} </a>
+                <h1> {{user.username}} </h1>
                 <span> {{user.date_joined}}</span>
             </div>
             <div class="forum-item">
@@ -20,15 +20,20 @@
             </div>
           </section>
 
+          {% for field in posts %}
             <section class="sub-box">
                 <div class="forum-item">
-                    <p> user </p>
-                    <span> date </span>
+                    <p> {{field.User_ID.User_ID.username}}</p>
+                    <span> {{field.post_date}} </span>
                 </div>
                 <div class="forum-item">
-                  <span> Posts Contents </span>
+                  <a href="{{field.get_url}}"> {{field.post_name}}  </a>
+                  </div>
+                <div class="forum-item">
+                  <span> {{field.contents}}</span>
                 </div>
             </section>
+            {% endfor %}
             {%else%}
               <div class="forum-item">
                 <p > This is a moderator profile. You have the ability to ban users, pin posts, 

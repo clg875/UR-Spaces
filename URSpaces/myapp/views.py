@@ -1,10 +1,10 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
-from myapp.forms import SignUpForm #, CreateNewPost
+from myapp.forms import SignUpForm , UpdateProfileForm#, CreateNewPost
 from myapp.models import Student , SubForum, Posts, Comment, Like, Moderator 
 from django.contrib.auth.models import User
-
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -23,7 +23,7 @@ def signin(request):
         if username is not None and password is not None:
             er = True
         return render(request, "registration/login.html", {"error": er})
-    
+  
 def signupPage(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -44,13 +44,14 @@ def signupPage(request):
             return redirect('login')
     else:
         form = SignUpForm()
-    return render(request, 'signup.html', {'form': form})
+    return render(request, 'registration/signup.html', {'form': form})
 
-#def login(request):
-#  return render(request, "registration/login.html")
 
 def help(request):
     return render(request, "help.html")
+
+def service(request):
+    return render(request, "service.html")
 
 def about(request):
     return render(request, "about.html")
@@ -69,25 +70,50 @@ def posts(request, slug):
     }
     return render(request, "posts.html", context)
 
-def service(request):
-    return render(request, "service.html")
-
+#avatar picture is not saving corectly
+@login_required
 def settings(request):
-    return render(request, "setting.html")
+    user = request.user
+    currentUser = User.objects.get(username = user)
+    form = UpdateProfileForm(request.POST, request.FILES)
+    student = Student.objects.get(User_ID = currentUser)
+    if request.method == 'POST':
+        if form.is_valid():
+            updateProfile = form.save(commit=False)
+            bio = form.cleaned_data.get('username')
+            updateProfile.pk = student.pk
+            updateProfile.User_ID = student.User_ID
+            updateProfile.save()
+        return redirect("profile")
+        
+    context = {
+        "form": form
+
+    }
+    return render(request, "registration/setting.html", context)
 
 #not working correctly yet
 def profile(request):
-    user = request.user.username
+    user = request.user
     currentUser = User.objects.get(username = user)
-    # try:
-    student = Student.objects.filter(User_ID = currentUser)
-    moderator = Moderator.objects.filter(User_ID = currentUser)
-    # except:
-    #     student = None
-    #     moderator = None
+    try:
+        student = Student.objects.get(User_ID = currentUser)
+        posts = Posts.objects.filter(User_ID = student)
+        #student = Student.objects.get(pk = studentObj.pk)
+    except:
+        student = None
+        posts = None
+
+    try:
+        moderator = Moderator.objects.get(User_ID = currentUser)
+       # moderator = Moderator.objects.get(pk = moderatorObj.pk)
+    except:
+        moderator = None
+
     context = {
         "student": student,
-        "moderator" : moderator
+        "moderator" : moderator,
+        "posts": posts
 
     }
     return render(request, "profile.html", context)

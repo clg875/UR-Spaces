@@ -13,7 +13,7 @@ class Moderator(models.Model):
 
 class Student(models.Model):
     User_ID = models.ForeignKey(User, on_delete=models.CASCADE)
-    bio = models.TextField(default="Please add bio in settings")
+    bio = models.TextField(default="Please add bio in settings", blank=True)
     banned = models.BooleanField(default=False)
     avatar =ResizedImageField(size=[50, 80], quality=100, upload_to="authors", default=None, null=True, blank=True)
     reported = models.BooleanField(default=False)
