@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+    {% block title %}
+    <h1>Reports</h1>
+    {% endblock %}
+    {% block content %}
+
+    <main>
+
+
+
+        <section class="box" >
+        <h3>Reported users</h3>
+            <!-- links for the user only
+                
+                {%if  field.User_ID.User_ID.username  == request.user.username%}
+                <a href="{% url 'profile' %}"> {{field.User_ID.User_ID.username}}  </a>
+                {%else%} 
+                <a href="{{field.User_ID.get_url}}"> {{field.User_ID.User_ID.username}}  </a>
+                {% endif %} -->
+        </section>
+        <section class="box" >
+            <h3>Reported Post</h3>
+                <!-- links for the user and post
+                    {%if  field.User_ID.User_ID.username  == request.user.username%}
+                <a href="{% url 'profile' %}"> {{field.User_ID.User_ID.username}}  </a>
+                {%else%} 
+                <a href="{{field.User_ID.get_url}}"> {{field.User_ID.User_ID.username}}  </a>
+                {% endif %} -->
+        </section>
+        <section class="box" >
+            <h3>Reported Comments</h3>
+                <!-- links for the post and user plus the comment 
+                    {%if  field.User_ID.User_ID.username  == request.user.username%}
+                <a href="{% url 'profile' %}"> {{field.User_ID.User_ID.username}}  </a>
+                {%else%} 
+                <a href="{{field.User_ID.get_url}}"> {{field.User_ID.User_ID.username}}  </a>
+                {% endif %} -->
+        </section>
+        
+    </main>
+  
+    </main>
+
+    {% endblock %}
