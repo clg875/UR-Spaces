@@ -26,6 +26,19 @@ class UpdatePostForm(forms.ModelForm):
         fields = ("contents", )
 
 
+# class DeletePostForm(forms.ModelForm):
+
+#     class Meta:
+#         model = Posts
+
+class UpdateCommentForm(forms.ModelForm):
+
+    
+    class Meta:
+        model = Comment
+        fields = ("com_contents", )
+
+
 class CreateNewPost(forms.ModelForm):
 
     class Meta:

@@ -83,7 +83,7 @@ class Comment(models.Model):
     count_likes = models.IntegerField(default=0)
     pin = models.BooleanField(default=False)
     reported = models.BooleanField(default=False)
-    com_contents = models.CharField(max_length=500)
+    com_contents = models.TextField(max_length=500)
     com_date = models.DateTimeField(auto_now_add=True)
 
 class Like(models.Model):
