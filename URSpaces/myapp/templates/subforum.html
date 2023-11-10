@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-<script src="{% static 'post.js' %}"></script>
+
 
     {% block title %}
     <h1>{{forum.sub_name}}</h1>
@@ -17,7 +17,7 @@
         </form> -->
 
       <button onclick="reveal()", type="submit", name="createPost", value="createPost">Create New Post</button>
-  <div id = "reveal">
+  <div id = "reveal" style="display: none">
       <form action="." method="POST">
         {% csrf_token %}
         <section class="box">
