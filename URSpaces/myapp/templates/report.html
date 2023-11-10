@@ -4,6 +4,23 @@
     <h1>Reports</h1>
     {% endblock %}
     {% block content %}
+    <style>
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+        
+        tr:nth-child(even) {
+          background-color: #5eb805;
+        }
+        </style>
 
     <main>
 
@@ -12,17 +29,67 @@
         <section class="box" >
         <h3>Reported users</h3>
             <!-- links for the user only-->
-            <a href="https://www.w3schools.com/html/html_links.asp">username</a> 
-              
+            <table style="width:100%">
+                <tr>
+                  <th>username</th>
+                  <th>ban</th>
+                </tr>
+                <tr>
+                  <td><a href="https://www.w3schools.com/html/html_links.asp">username</a></td>
+                  <td><button type="button" onclick="alert('user banned')">ban</button></td>
+                </tr>
+                <tr>
+                    <td><a href="https://www.w3schools.com/html/html_links.asp">username</a></td>
+                    <td><button type="button" onclick="alert('user banned')">ban</button></td>
+                  </tr>
+            </table>
+                
         </section>
         <section class="box" >
             <h3>Reported Post</h3>
-            <a href="https://www.w3schools.com/html/html_links.asp">post</a>
-
+            <table style="width:100%">
+                 <!-- links for the user and post-->
+                <tr>
+                  <th>post</th>
+                  <th>username</th>
+                  <th>ban</th>
+                </tr>
+                <tr>
+                  <td><a href="https://www.w3schools.com/html/html_links.asp">post</a></td>
+                  <td><a href="https://www.w3schools.com/html/html_links.asp">username</a></td>
+                  <td><button type="button" onclick="alert('user banned')">ban</button></td>
+                </tr>
+                <tr>
+                    <td><a href="https://www.w3schools.com/html/html_links.asp">post</a></td>
+                    <td><a href="https://www.w3schools.com/html/html_links.asp">username</a></td>
+                    <td><button type="button" onclick="alert('user banned')">ban</button></td>
+                </tr>
+            </table>
         </section>
         <section class="box" >
             <h3>Reported Comments</h3>
-            <a class="R-links", href="https://www.w3schools.com/html/html_links.asp">comments</a>
+            <!-- links for the post with the comments contents-->
+
+             <table style="width:100%">
+                <tr>
+                    <th>comment</th>
+                    <th>post</th>
+                    <th>username</th>
+                    <th>ban</th>
+                </tr>
+                <tr>
+                    <td><span> contents </span></td>
+                    <td><a href="https://www.w3schools.com/html/html_links.asp">post</a></td>
+                    <td><a href="https://www.w3schools.com/html/html_links.asp">username</a></td>
+                    <td><button type="button" onclick="alert('user banned')">ban</button></td>
+                </tr>
+                <tr>
+                    <td><span>contents</span></td>
+                    <td><a href="https://www.w3schools.com/html/html_links.asp">post</a></td>
+                    <td><a href="https://www.w3schools.com/html/html_links.asp">username</a></td>
+                    <td><button type="button" onclick="alert('user banned')">ban</button></td>
+                </tr>
+            </table>
         </section>
         
     </main>
