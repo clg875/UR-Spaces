@@ -7,13 +7,16 @@ function reveal() {
     }
   }
 
-  function revealComment() {
-    var x = document.getElementById("revealComment");
+  function revealComment(id) {
+    var x = document.getElementById(id);
+    var y = document.getElementById("editCommentForm");
     if (x.style.display === "none") {
       x.style.display = "block";
     } else {
       x.style.display = "none";
     }
+
+    y.action = "{% url 'comment_update' post.slug id %}"
   }
 
   function confirmPost() {

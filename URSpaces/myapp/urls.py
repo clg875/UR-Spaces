@@ -8,6 +8,7 @@ urlpatterns = [
     path("about/", about, name="about"),
     path("index/", index, name="index"),
     path("posts/<slug>/", posts, name="posts"),
+    path('posts/<slug>/<pk>/', posts, name='comment_update'),
     path("service/", service, name="service"),
     path("setting/", settings, name="setting"),
     path("signup/", signupPage, name="signup"),

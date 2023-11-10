@@ -69,7 +69,7 @@ def index(request):
     #return render(request, "index.html")
 
 @login_required
-def posts(request, slug):
+def posts(request, slug, pk =None):
     post = get_object_or_404(Posts, slug=slug)
     comments = Comment.objects.filter(Post_ID = post)
     forum = SubForum.objects.get(pk = post.SubForum_ID.pk)
@@ -78,7 +78,10 @@ def posts(request, slug):
     error = False
     # data = {'contents': post.contents, }
     form = UpdatePostForm(request.POST)
-    commentform = UpdateCommentForm(request.POST)
+    if pk:
+        commentform = UpdateCommentForm(instance=Comment.objects.get(pk=pk), data=request.POST)
+    else:
+        commentform = UpdateCommentForm(data=request.POST)
     # deletePostform =DeletePostForm(request.POST)
     context = {
         "post":post,

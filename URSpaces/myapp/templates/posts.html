@@ -76,14 +76,14 @@
               {% csrf_token %}
               <input type="submit" value="Delete Comment" class="btn2" name="deleteComment_btn" >
               </form>
-              <input type="button", onclick="revealComment()", value="Edit Comment" class="btn2">
+              <input type="button", onclick="revealComment('field{{field.id}}')", value="Edit Comment" class="btn2">
               {%else%}
               <input type="button" value="Report User" class="btn2">
               {% endif %}
             
-              <form action="." method="POST">
+              <form method="POST" action="{% url 'comment_update' post.slug field.pk %}" id="editCommentForm">
                 {% csrf_token %}
-                <div id = "revealComment" style="display: none">
+                <div id = "field{{field.id}}" style="display: none">
                 <section class="sub-box">
                 <div class="forum-item">
                   <p> Edit Comment: </p>
