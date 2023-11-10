@@ -52,7 +52,7 @@ class SubForum(models.Model):
 class Posts(models.Model):
     User_ID = models.ForeignKey(Student, on_delete=models.CASCADE)
     SubForum_ID = models.ForeignKey(SubForum, default= 1, on_delete=models.CASCADE)
-    post_name = models.CharField(max_length=400)
+    post_name = models.TextField(max_length=400)
     contents = models.TextField()
     count_likes = models.IntegerField(default=0, blank=True, )
     locked = models.BooleanField(default=False)

@@ -46,8 +46,12 @@
 
       {% for field in post %}
         <section class="box" >
-        <div class="forum-item">   
-          <a href="{{field.User_ID.get_url}}" > {{field.User_ID.User_ID.username}} </a>
+        <div class="forum-item"> 
+          {%if  field.User_ID.User_ID.username  == request.user.username%}
+                <a href="{% url 'profile' %}"> {{field.User_ID.User_ID.username}}  </a>
+                {%else%} 
+                <a href="{{field.User_ID.get_url}}"> {{field.User_ID.User_ID.username}}  </a>
+          {% endif %} 
             <span> {{field.post_date}} </span>
         </div>
         <div class="forum-item">
@@ -59,12 +63,12 @@
         <div class="post-item">
           <input type="button" value="Likes: 10" class="btn1"><i class="fa-regular fa-heart"></i>
           <a href="{{field.get_url}}"> Comments: {{field.num_comments}} </a>
-          {%if  field.User_ID.User_ID.username  == request.user.username%}
+          <!-- {%if  field.User_ID.User_ID.username  == request.user.username%}
           <input type="button" value="Delete Post" class="btn2">
           <input type="button" value="Edit Post" class="btn2">
           {%else%}
           <input type="button" value="Report User" class="btn2">
-          {% endif %}
+          {% endif %} -->
       </section>
       {% endfor %}
 
