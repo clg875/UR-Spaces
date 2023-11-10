@@ -25,6 +25,28 @@
           {%else%}
           <input type="button" value="Report User" class="btn2">
           {% endif %}
+        
+          <form action="." method="POST">
+            {% csrf_token %}
+            <section class="box">
+            <div class="forum-item">
+              <p> Edit Contents: </p>
+            </div>
+            <div class="forum-item">
+              {{form.contents}}
+            </div>
+            {% if error %}
+            <div class="forum-item">
+                    <p style="color: red">Header and content must be filled out.</p>
+            </div>
+            {%endif%}
+            
+            <div class="forum-item">
+              <input type="submit" value="Submit" name="editPost_form">
+            </div>
+          </section>
+        </form>
+
       </section>
 
       <!-- <button type="submit", name="addComment", value="addComment">Add Comment</button> -->
@@ -32,7 +54,11 @@
       {% for field in comments %}
         <section class="sub-box">
             <div class="forum-item">
+              {%if  field.User_ID.User_ID.username  == request.user.username%}
+                <a href="{% url 'profile' %}"> {{field.User_ID.User_ID.username}}  </a>
+                {%else%} 
                 <a href="{{field.User_ID.get_url}}"> {{field.User_ID.User_ID.username}}  </a>
+                {% endif %} 
                 <span> {{field.com_date}} </span>
             </div>
             <div class="forum-item">
@@ -41,7 +67,8 @@
             <div class="post-item">
               <input type="button" value="Likes: 10" class="btn1"><i class="fa-regular fa-heart"></i>
               {%if  field.User_ID.User_ID.username  == request.user.username%}
-              <input type="button" value="Delete Comment" class="btn2">
+            </div>
+              <input method="POST" type="submit" value="Delete Comment" class="btn2" name="deletePost_btn" >
               <input type="button" value="Edit Comment" class="btn2">
               {%else%}
               <input type="button" value="Report User" class="btn2">

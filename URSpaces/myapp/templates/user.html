@@ -10,8 +10,8 @@
     
         <section class="box">
             <div class="forum-item">
-                <a> {{student.User_ID.username}} </a>
-                <span> {{student.User_ID.date}}</span>
+                <p> {{student.User_ID.username}} </p>
+                <span> {{student.User_ID.date_joined}}</span>
             </div>
             <div class="forum-item">
               <span> {{student.bio}}</span>
@@ -23,11 +23,11 @@
           {% for field in post %}
             <section class="sub-box">
                 <div class="forum-item">
-                    <a> {{field.User_ID.User_ID.username}} </a>
+                    <p> {{field.User_ID.User_ID.username}} </p>
                     <span> {{field.post_date}} </span>
                 </div>
                 <div class="forum-item">
-                    <a href="{{field.get_url}}"> {{field.post_name}}  </a>
+                  <a href="{{field.get_url}}"> {{field.post_name}}  </a>
                   </div>
                   <div class="forum-item">
                     <span> {{field.contents}} </span>

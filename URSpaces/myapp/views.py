@@ -1,11 +1,12 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
-from myapp.forms import SignUpForm , UpdateProfileForm , CreateNewPost
+from myapp.forms import SignUpForm , UpdateProfileForm , CreateNewPost , UpdatePostForm
 from myapp.models import Student , SubForum, Posts, Comment, Like, Moderator 
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-
+from django.utils.text import slugify
+from datetime import datetime
 
 # Create your views here.
 
@@ -68,23 +69,56 @@ def index(request):
 def posts(request, slug):
     post = get_object_or_404(Posts, slug=slug)
     comments = Comment.objects.filter(Post_ID = post)
+    forum = SubForum.objects.get(pk = post.SubForum_ID.pk)
     user = request.user
     currentUser = User.objects.get(username = user)
+    error = False
+    # data = {'contents': post.contents, }
+    form = UpdatePostForm(request.POST)
+    context = {
+        "post":post,
+        "comments": comments,
+        "error": error,
+        "form": form
+    }
 
     if currentUser.is_staff != True:
         
         student = Student.objects.get(User_ID = currentUser)
+
         if "newComment_form" in request.POST:
             content = request.POST.get("newContents")
 
             new_comment, created = Comment.objects.get_or_create(User_ID = student, Post_ID = post, com_contents = content)
-        
 
-    context = {
-        "post":post,
-        "comments": comments
-    }
+        if "editPost_form" in request.POST:
+            
+            if form.is_valid():
+                updatePost = form.save(commit=False)
+                updatePost.pk = post.pk 
+                updatePost.User_ID = student
+                updatePost.SubForum_ID = forum
+                updatePost.post_name = post.post_name
+                updatePost.post_date = datetime.now()
+                updatePost.save()
+
+                post = Posts.objects.get(pk = updatePost.pk)
+
+                context2 = {
+                    "post":post,
+                    "comments": comments,
+                    "error": error,
+                    "form": form
+                }
+                return render(request, "posts.html", context2)
+            
+            
     return render(request, "posts.html", context)
+
+# def postDelete(request,post_pk =None):
+#     object = Posts.objects.get(pk=post_pk)
+#     object.delete()
+#     return render(request,"index.html")
 
 #avatar picture is not saving corectly
 @login_required
@@ -164,7 +198,7 @@ def subforum(request, slug):
             header = request.POST.get("newHeader")
             content = request.POST.get("newContents")
 
-            if header is not None and content is not None:
+            if header != "" and content != "":
                 new_post, created = Posts.objects.get_or_create(User_ID = student, SubForum_ID = forum, post_name = header, contents = content)
             else:
                 error = True

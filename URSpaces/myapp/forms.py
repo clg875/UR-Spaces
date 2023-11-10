@@ -18,6 +18,13 @@ class UpdateProfileForm(forms.ModelForm):
         model = Student
         fields = ("avatar", "bio" )
 
+class UpdatePostForm(forms.ModelForm):
+
+    
+    class Meta:
+        model = Posts
+        fields = ("contents", )
+
 
 class CreateNewPost(forms.ModelForm):
 
