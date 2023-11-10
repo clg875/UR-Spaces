@@ -20,7 +20,10 @@
           <input type="button" value="Likes: 10" class="btn1"><i class="fa-regular fa-heart"></i>
           <p> Comments: {{post.num_comments}} </p>
           {%if  post.User_ID.User_ID.username  == request.user.username%}
-          <input type="button" value="Delete Post" class="btn2">
+          <form action="." method="POST">
+            {% csrf_token %}
+            <input type="submit" value="Delete Post" class="btn2" name="deletePost_btn" >
+          </form>
           <input type="button" value="Edit Post" class="btn2">
           {%else%}
           <input type="button" value="Report User" class="btn2">
@@ -37,7 +40,7 @@
             </div>
             {% if error %}
             <div class="forum-item">
-                    <p style="color: red">Header and content must be filled out.</p>
+                    <p style="color: red">Content cannot be blank.</p>
             </div>
             {%endif%}
             
@@ -68,11 +71,35 @@
               <input type="button" value="Likes: 10" class="btn1"><i class="fa-regular fa-heart"></i>
               {%if  field.User_ID.User_ID.username  == request.user.username%}
             </div>
-              <input method="POST" type="submit" value="Delete Comment" class="btn2" name="deletePost_btn" >
+              <form action="." method="POST">
+              {% csrf_token %}
+              <input type="submit" value="Delete Comment" class="btn2" name="deleteComment_btn" >
+              </form>
               <input type="button" value="Edit Comment" class="btn2">
               {%else%}
               <input type="button" value="Report User" class="btn2">
               {% endif %}
+
+              <form action="." method="POST">
+                {% csrf_token %}
+                <section class="sub-box">
+                <div class="forum-item">
+                  <p> Edit Comment: </p>
+                </div>
+                <div class="forum-item">
+                  {{commentform.com_contents}}
+
+                </div>
+                {% if error %}
+                <div class="forum-item">
+                        <p style="color: red">Comment cannot be blank.</p>
+                </div>
+                {%endif%}
+                <div class="forum-item">
+                  <input type="submit" value="Submit" name="editComment_form">
+                </div>
+              </section>
+            </form>
           </section>
           {% endfor %}
 

@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
-from myapp.forms import SignUpForm , UpdateProfileForm , CreateNewPost , UpdatePostForm
+from myapp.forms import SignUpForm , UpdateProfileForm , CreateNewPost , UpdatePostForm, UpdateCommentForm #, DeletePostForm
 from myapp.models import Student , SubForum, Posts, Comment, Like, Moderator 
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -75,11 +75,15 @@ def posts(request, slug):
     error = False
     # data = {'contents': post.contents, }
     form = UpdatePostForm(request.POST)
+    commentform = UpdateCommentForm(request.POST)
+    # deletePostform =DeletePostForm(request.POST)
     context = {
         "post":post,
         "comments": comments,
         "error": error,
-        "form": form
+        "form": form,
+        "commentform":commentform,
+        # "deletePostform":deletePostform
     }
 
     if currentUser.is_staff != True:
@@ -90,6 +94,21 @@ def posts(request, slug):
             content = request.POST.get("newContents")
 
             new_comment, created = Comment.objects.get_or_create(User_ID = student, Post_ID = post, com_contents = content)
+
+
+        if "editComment_form" in request.POST:
+            updateComment = commentform.save(commit=False)
+            updateComment.Post_ID = post 
+            updateComment.User_ID = student
+            updateComment.com_date = datetime.now()
+            updateComment.save()
+            
+        if "deletePost_btn" in request.POST:
+            deletePost = Posts.objects.get(pk = post.pk)
+            deletePost.User_ID = student
+            deletePost.SubForum_ID = forum
+            deletePost.delete()
+            return redirect("index")
 
         if "editPost_form" in request.POST:
             
