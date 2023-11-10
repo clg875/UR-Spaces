@@ -47,6 +47,9 @@ def signupPage(request):
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
 
+def report(request):
+    return render(request, "report.html")
+
 @login_required
 def help(request):
     return render(request, "help.html")

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import signin, help, about, index, posts, service, settings, signupPage, user, subforum, profile 
+from .views import signin, help, about, index, posts, service, settings, signupPage, user, subforum, profile, report
 
 urlpatterns = [
     path("login/", signin, name="login"),
@@ -13,6 +13,7 @@ urlpatterns = [
     path("signup/", signupPage, name="signup"),
     path("user/<slug>/", user, name="user"),
     path("profile/", profile, name="profile"),
-    path("subforum/<slug>/", subforum, name="subforum")
+    path("subforum/<slug>/", subforum, name="subforum"),
+    path("report/", report, name="report"),
 
 ]
