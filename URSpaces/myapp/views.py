@@ -68,14 +68,16 @@ def index(request):
 def posts(request, slug):
     post = get_object_or_404(Posts, slug=slug)
     comments = Comment.objects.filter(Post_ID = post)
-
     user = request.user
     currentUser = User.objects.get(username = user)
-    student = Student.objects.get(User_ID = currentUser)
-    if "newComment_form" in request.POST:
-        content = request.POST.get("newContents")
 
-        new_comment, created = Comment.objects.get_or_create(User_ID = student, Post_ID = post, com_contents = content)
+    if currentUser.is_staff != True:
+        
+        student = Student.objects.get(User_ID = currentUser)
+        if "newComment_form" in request.POST:
+            content = request.POST.get("newContents")
+
+            new_comment, created = Comment.objects.get_or_create(User_ID = student, Post_ID = post, com_contents = content)
         
 
     context = {
