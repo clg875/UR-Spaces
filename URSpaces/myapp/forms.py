@@ -26,10 +26,11 @@ class UpdatePostForm(forms.ModelForm):
         fields = ("contents", )
 
 
-# class DeletePostForm(forms.ModelForm):
+class ReportPostForm(forms.ModelForm):
 
-#     class Meta:
-#         model = Posts
+    class Meta:
+        model = Posts
+        fields = ("reported", )
 
 class UpdateCommentForm(forms.ModelForm):
 

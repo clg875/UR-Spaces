@@ -17,9 +17,18 @@
               <span> {{student.bio}}</span>
             </div>
             {%if moderator is  None%}
-            <div class="user-item">
-              <input type="button" value="Report User" class="btn2">
-            </div>
+              {%if student.reported == False%}
+              <form action="." method="POST" id="reportPostForm">
+              {% csrf_token %}
+              <div class="user-item">
+              <input type="submit" value="Report User" class="btn2" name="reportUser_btn">
+              </div>
+              </form>
+              {%else %}
+              <div class="forum-item">
+              <p style="color: red">User Reported</p>
+              </div>
+              {% endif %}
             {%else %}
             <div class="user-item">
                 <input type="button" value="Ban User" class="btn2">

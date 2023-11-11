@@ -31,9 +31,19 @@
 
           {%if moderator is None %}
             {%if  post.User_ID.User_ID.username  == request.user.username %}
-          <input onclick="reveal()", type="button" value="Edit Post" class="btn2">
+            <input onclick="reveal()", type="button" value="Edit Post" class="btn2">
             {%else%}
-          <input type="button" value="Report User" class="btn2">
+              {%if post.reported == False%} 
+                <form action="." method="POST" id="reportPostForm">
+                {% csrf_token %}
+                <input type="submit" value="Report User" class="btn2" name="reportPost_btn">
+                </form>
+                {%else %}
+                <div class="forum-item">
+                  <p style="color: red">Post Reported</p>
+                </div>
+                {% endif %}
+
             {% endif %}
           {%else %}
           <input type="button" value="Ban User" class="btn2">
@@ -85,20 +95,28 @@
 
             <!-- Comment Buttons available-->
             {%if moderator is  None%}
-              {%if  field.User_ID.User_ID.username  == request.user.username%}
-            
+              {%if  field.User_ID.User_ID.username  == request.user.username%}            
               <form action="{% url 'comment_update' post.slug  field.id %}" method="POST" id="deleteCommentForm">
               {% csrf_token %}
               <input type="submit" value="Delete Comment" class="btn2" name="deleteComment_btn">
               <input type="button", onclick="revealComment('field{{field.id}}', 'field{{firstCommentId}}')", value="Edit Comment" class="btn2">
               </form>
               {%else%}
-                
-              <input type="button" value="Report User" class="btn2">
-                {% endif %}
+                {%if field.reported == False%} 
+                <form action="{% url 'comment_update' post.slug  field.id %}" method="POST" id="reportCommentForm">
+                  {% csrf_token %} 
+                <input type="submit" value="Report User" class="btn2" name="reportComment_btn">
+                </form>
                 {%else %}
-                <input type="button" value="Ban User" class="btn2">
+                <div class="forum-item">
+                  <p style="color: red">Comment Reported</p>
+                </div>
+                {% endif %}
+
               {% endif %}
+            {%else %}
+              <input type="button" value="Ban User" class="btn2">
+            {% endif %}
 
               <!-- {%if moderator is  None%}
                 {%if  field.User_ID.User_ID.username  == request.user.username%}

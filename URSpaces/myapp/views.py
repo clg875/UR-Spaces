@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
-from myapp.forms import SignUpForm , UpdateProfileForm , CreateNewPost , UpdatePostForm, UpdateCommentForm #, DeletePostForm
+from myapp.forms import SignUpForm , UpdateProfileForm , CreateNewPost , UpdatePostForm, UpdateCommentForm, ReportPostForm#, DeletePostForm
 from myapp.models import Student , SubForum, Posts, Comment, Like, Moderator 
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -41,6 +41,7 @@ def signupPage(request):
             new_student = Student()
             new_student.User_ID = User.objects.get(username = username)
             new_student.bio = "Please add bio"
+            new_student.slug = slugify(username)
             new_student.save()
             #login(request, user)
             return redirect('login')
@@ -103,8 +104,8 @@ def posts(request, slug, pk =None):
         "form": form,
         "commentform":commentform,
         "moderator": moderator,
-        "firstCommentId": firstCommentId 
-        # "deletePostform":deletePostform
+        "firstCommentId": firstCommentId,
+
     }
 
     if moderator is None:
@@ -137,6 +138,46 @@ def posts(request, slug, pk =None):
             deleteComment.delete()
             redirect_url = reverse('posts', args=[slug])
             return redirect(redirect_url)
+        
+        if "reportComment_btn" in request.POST:
+            if comments.exists() and pk is None:
+                CommentId = comments[0].id
+            else:
+                CommentId = pk
+            reportComment = Comment.objects.get(pk = CommentId)
+            reportComment.reported = True
+            reportComment.save()
+            redirect_url = reverse('posts', args=[slug])
+            return redirect(redirect_url)
+        
+        if "reportPost_btn" in request.POST:
+            reportPost = Posts.objects.get(pk = post.pk)
+            reportPost.pk = post.pk
+            reportPost.User_ID = post.User_ID
+            reportPost.SubForum_ID = forum
+            reportPost.post_name =post.post_name
+            reportPost.contents =post.contents
+            reportPost.post_date =post.post_date
+            reportPost.count_likes = post.count_likes
+            reportPost.reported = True
+            reportPost.pin = post.pin
+            reportPost.locked = post.locked
+            reportPost.slug = post.slug
+                
+            reportPost.reported = True
+            reportPost.save()
+            post = Posts.objects.get(pk = reportPost.pk)
+
+            context2 = {
+                    "post":post,
+                    "comments": comments,
+                    "error": error,
+                    "form": form,
+                    "commentform":commentform,
+                    "moderator": moderator,
+                    "firstCommentId": firstCommentId,
+            }
+            return render(request, "posts.html", context2)
 
             
         if "deletePost_btn" in request.POST:
@@ -146,6 +187,7 @@ def posts(request, slug, pk =None):
             deletePost.delete()
             redirect_url = reverse('subforum', args=[forum.slug])
             return redirect(redirect_url)
+        
 
         if "editPost_form" in request.POST:
             
@@ -167,7 +209,7 @@ def posts(request, slug, pk =None):
                     "form": form,
                     "commentform":commentform,
                     "moderator": moderator,
-                    "firstCommentId": firstCommentId 
+                    "firstCommentId": firstCommentId,
                 }
                 return render(request, "posts.html", context2)
             
@@ -240,6 +282,20 @@ def user(request, slug):
     except:
         moderator = None
 
+    if "reportUser_btn" in request.POST:
+        reportStudent = Student.objects.get(pk = student.pk)
+        reportStudent.User_ID = student.User_ID
+        reportStudent.bio = student.bio
+        reportStudent.avatar = student.avatar
+        reportStudent.banned = student.banned
+        reportStudent.slug = student.slug
+        reportStudent.reported = True
+        reportStudent.save()
+
+        student = Student.objects.get(pk = reportStudent.pk)
+
+
+
     context = {
         "student": student,
         "post": post,
@@ -267,7 +323,7 @@ def subforum(request, slug):
             content = request.POST.get("newContents")
 
             if header != "" and content != "":
-                new_post, created = Posts.objects.get_or_create(User_ID = student, SubForum_ID = forum, post_name = header, contents = content)
+                new_post, created = Posts.objects.get_or_create(User_ID = student, SubForum_ID = forum, post_name = header, contents = content, slug = slugify(header))
             else:
                 error = True
     context = {

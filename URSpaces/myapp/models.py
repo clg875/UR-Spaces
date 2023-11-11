@@ -19,10 +19,10 @@ class Student(models.Model):
     reported = models.BooleanField(default=False)
     slug = models.SlugField(max_length=400, unique=True, blank=True)
 
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.User_ID)
-            super(Student, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if not self.slug:
+    #         self.slug = slugify(self.User_ID)
+    #         super(Student, self).save(*args, **kwargs)
 
     def get_url(self):
         return reverse("user", kwargs={
@@ -59,13 +59,12 @@ class Posts(models.Model):
     pin = models.BooleanField(default=False)
     reported = models.BooleanField(default=False)
     post_date = models.DateTimeField(auto_now_add=True)
-    #com_count = models.IntegerField()
     slug = models.SlugField(max_length=400, unique=True, blank=True)
 
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.post_name)
-            super(Posts, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if not self.slug:
+    #         self.slug = slugify(self.post_name)
+    #         super(Posts, self).save(*args, **kwargs)
     
     def get_url(self):
         return reverse("posts", kwargs={
