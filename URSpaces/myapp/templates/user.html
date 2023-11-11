@@ -10,8 +10,8 @@
     
         <section class="box">
             <div class="post-item">
-                <p> {{student.User_ID.username}} </p>
-                <span> {{student.User_ID.date_joined}}</span>
+                <p class="name1"> {{student.User_ID.username}} </p>
+                <span class="date"> {{student.User_ID.date_joined}}</span>
             </div>
             <div class="post-item">
               <span> {{student.bio}}</span>
@@ -42,11 +42,11 @@
           {% for field in post %}
             <section class="sub-box">
                 <div class="post-item">
-                    <p> {{field.User_ID.User_ID.username}} </p>
-                    <span> {{field.post_date}} </span>
+                    <p class="name"> {{field.User_ID.User_ID.username}} </p>
+                    <span class="date"> {{field.post_date}} </span>
                 </div>
                 <div class="post-item">
-                  <a href="{{field.get_url}}"> {{field.post_name}}  </a>
+                  <a href="{{field.get_url}}" class="item2"> {{field.post_name}}  </a>
                   </div>
                   <div class="post-item">
                     <span> {{field.contents}} </span>
