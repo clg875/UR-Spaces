@@ -18,5 +18,6 @@ urlpatterns = [
     path("profile/", profile, name="profile"),
     path("subforum/<slug>/", subforum, name="subforum"),
     path("report/", report, name="report"),
+     path('report/<pk>/', report, name='report_update'),
 
 ]

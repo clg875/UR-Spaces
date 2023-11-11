@@ -50,8 +50,61 @@ def signupPage(request):
     return render(request, 'registration/signup.html', {'form': form})
 
 @login_required
-def report(request):
-    return render(request, "report.html")
+def report(request, pk=None):
+    students = Student.objects.filter(reported=True, banned=False)
+    posts = Posts.objects.filter(reported=True, User_ID__banned =False)
+    comments = Comment.objects.filter(reported=True, User_ID__banned =False)
+
+    if "banUser_btn" in request.POST:
+        banUser = Student.objects.get(pk=pk)
+        banUser.banned = True
+        banUser.save()
+        return redirect("report")
+    
+    if "ignoreUser_btn" in request.POST:
+        ignoreUser = Student.objects.get(pk=pk)
+        ignoreUser.reported = False
+        ignoreUser.save()
+        return redirect("report")
+
+
+    if "banUserPost_btn" in request.POST:
+        postUser = Posts.objects.get(pk=pk)
+        banUser = Student.objects.get(pk= postUser.User_ID.pk)
+        banUser.banned = True
+        banUser.save()
+        return redirect("report")
+    
+    if "ignorePost_btn" in request.POST:
+        ignorePost = Posts.objects.get(pk=pk)
+        ignorePost.reported = False
+        ignorePost.save()
+        return redirect("report")
+    
+    if "banUserComment_btn" in request.POST:
+        commentUser = Comment.objects.get(pk=pk)
+        banUser = Student.objects.get(pk = commentUser.User_ID.pk)
+        banUser.banned = True
+        banUser.save()
+        return redirect("report")
+    
+    if "ignoreComment_btn" in request.POST:
+        ignoreComment = Comment.objects.get(pk=pk)
+        ignoreComment.reported = False
+        ignoreComment.save()
+        return redirect("report")
+
+
+    context = {
+        "students": students,
+        "posts":posts,
+        "comments": comments,
+
+    }
+
+
+
+    return render(request, "report.html", context)
 
 @login_required
 def help(request):
@@ -74,7 +127,7 @@ def index(request):
 @login_required
 def posts(request, slug, pk =None):
     post = get_object_or_404(Posts, slug=slug)
-    comments = Comment.objects.filter(Post_ID = post)
+    comments = Comment.objects.filter(Post_ID = post, User_ID__banned =False)
     forum = SubForum.objects.get(pk = post.SubForum_ID.pk)
     user = request.user
     currentUser = User.objects.get(username = user)
@@ -216,11 +269,6 @@ def posts(request, slug, pk =None):
             
     return render(request, "posts.html", context)
 
-# def postDelete(request,post_pk =None):
-#     object = Posts.objects.get(pk=post_pk)
-#     object.delete()
-#     return render(request,"index.html")
-
 #avatar picture is not saving corectly
 @login_required
 def settings(request):
@@ -309,7 +357,7 @@ def user(request, slug):
 @login_required
 def subforum(request, slug):
     forum = get_object_or_404(SubForum, slug=slug)
-    post = Posts.objects.filter(SubForum_ID = forum)
+    post = Posts.objects.filter(SubForum_ID = forum, User_ID__banned =False)
     user = request.user
     currentUser = User.objects.get(username = user)
     error = False

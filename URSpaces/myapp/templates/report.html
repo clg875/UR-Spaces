@@ -35,16 +35,16 @@
                   <th>ban</th>
                   <th>ignore</th>
                 </tr>
+                {% for student in students%}
                 <tr>
-                  <td><a href="https://www.w3schools.com/html/html_links.asp">username</a></td>
-                  <td><button type="button" onclick="alert('user banned')">ban</button></td>
-                  <td><button type="button" onclick="alert('user ignore')">ignore</button></td>
+                  <td><a href="{{student.get_url}}">{{student.User_ID.username}}</a></td>
+                  <form action="{% url 'report_update' student.id %}" method="POST" >
+                    {% csrf_token %}
+                  <td><button type="submit" name="banUser_btn">Ban</button></td>
+                  <td><button type="submit" name="ignoreUser_btn">Ignore</button></td>
+                  </form>
                 </tr>
-                <tr>
-                    <td><a href="https://www.w3schools.com/html/html_links.asp">username</a></td>
-                    <td><button type="button" onclick="alert('user banned')">ban</button></td>
-                    <td><button type="button" onclick="alert('user ignore')">ignore</button></td>
-                  </tr>
+                {% endfor %}
             </table>
                 
         </section>
@@ -58,18 +58,18 @@
                   <th>ban</th>
                   <th>ignore</th>
                 </tr>
+                {% for post in posts%}
                 <tr>
-                  <td><a href="https://www.w3schools.com/html/html_links.asp">post</a></td>
-                  <td><a href="https://www.w3schools.com/html/html_links.asp">username</a></td>
-                  <td><button type="button" onclick="alert('user banned')">ban</button></td>
-                  <td><button type="button" onclick="alert('user ignore')">ignore</button></td>
+                  <td><a href="{{post.get_url}}">{{post.post_name}}</a></td>
+                  <td><a href="{{post.User_ID.get_url}}">{{post.User_ID.User_ID.username}}</a></td>
+                  <form action="{% url 'report_update' post.id %}" method="POST" >
+                    {% csrf_token %}
+                  <td><button type="submit" name="banUserPost_btn">Ban</button></td>
+                  <td><button type="submit" name="ignorePost_btn">Ignore</button></td>
+                  </form>
                 </tr>
-                <tr>
-                    <td><a href="https://www.w3schools.com/html/html_links.asp">post</a></td>
-                    <td><a href="https://www.w3schools.com/html/html_links.asp">username</a></td>
-                    <td><button type="button" onclick="alert('user banned')">ban</button></td>
-                    <td><button type="button" onclick="alert('user ignore')">ignore</button></td>
-                </tr>
+                {%endfor%}
+
             </table>
         </section>
         <section class="box" >
@@ -84,20 +84,18 @@
                     <th>ban</th>
                     <th>ignore</th>
                 </tr>
+                {%for comment in comments%}
                 <tr>
-                    <td><span> contents </span></td>
-                    <td><a href="https://www.w3schools.com/html/html_links.asp">post</a></td>
-                    <td><a href="https://www.w3schools.com/html/html_links.asp">username</a></td>
-                    <td><button type="button" onclick="alert('user banned')">ban</button></td>
-                    <td><button type="button" onclick="alert('user ignore')">ignore</button></td>
+                    <td><span> {{comment.com_contents}} </span></td>
+                    <td><a href="{{comment.Post_ID.get_url}}">{{comment.Post_ID.post_name}} </a></td>
+                    <td><a href="{{comment.User_ID.get_url}}">{{comment.User_ID.User_ID.username}}</a></td>
+                    <form action="{% url 'report_update' comment.id %}" method="POST" >
+                      {% csrf_token %}
+                    <td><button type="submit" name="banUserComment_btn">Ban</button></td>
+                    <td><button type="submit" name="ignoreComment_btn">Ignore</button></td>
+                    </form>
                 </tr>
-                <tr>
-                    <td><span>contents</span></td>
-                    <td><a href="https://www.w3schools.com/html/html_links.asp">post</a></td>
-                    <td><a href="https://www.w3schools.com/html/html_links.asp">username</a></td>
-                    <td><button type="button" onclick="alert('user banned')">ban</button></td>
-                    <td><button type="button" onclick="alert('user ignore')">ignore</button></td>
-                </tr>
+                {% endfor %}
             </table>
         </section>
         

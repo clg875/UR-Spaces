@@ -54,7 +54,7 @@ class SubForum(models.Model):
 
     @property
     def num_posts(self):
-        return Posts.objects.filter(SubForum_ID = self).count()
+        return Posts.objects.filter(SubForum_ID = self, User_ID__banned =False).count()
     
 
 
@@ -85,7 +85,7 @@ class Posts(models.Model):
     
     @property
     def num_comments(self):
-        return Comment.objects.filter(Post_ID = self).count()
+        return Comment.objects.filter(Post_ID = self, User_ID__banned =False).count()
     
 class Comment(models.Model):
     #Comment_ID = models.IntegerField(primary_key=True)
