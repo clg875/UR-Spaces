@@ -197,6 +197,12 @@ form p {
   margin-left: 5px;
 }
 
+.name1 {
+  font-family: Harrington, fantasy;
+  font-weight: bold;
+  font-size: large;
+}
+
 .date {
   font-size: 15px;
   color: rgb(146, 145, 145);
