@@ -15,25 +15,25 @@
       <form action="." method="POST">
         {% csrf_token %}
         <section class="box">
-        <div class="forum-item">
+        <div class="post-item">
           <p> Post Header: </p> 
         </div>
-        <div class="forum-item">
+        <div class="post-item">
           <textarea name="newHeader" cols="100" placeholder="Add post header..."></textarea>
         </div>
-        <div class="forum-item">
+        <div class="post-item">
           <p> Contents: </p>
         </div>
-        <div class="forum-item">
+        <div class="post-item">
           <textarea name="newContents"  cols="130" rows="3" placeholder="Input text here..."></textarea>
         </div>
         {% if error %}
-        <div class="forum-item">
+        <div class="post-item">
                 <p style="color: red">Header and content must be filled out.</p>
         </div>
         {%endif%}
         
-        <div class="forum-item">
+        <div class="post-item">
           <input type="submit" value="Submit" name="newPost_form">
         </div>
       </section>
@@ -42,21 +42,21 @@
 
       {% for field in post %}
         <section class="box" >
-        <div class="forum-item"> 
+        <div class="post-item"> 
           {%if  field.User_ID.User_ID.username  == request.user.username%}
-                <a href="{% url 'profile' %}"> {{field.User_ID.User_ID.username}}  </a>
+                <a href="{% url 'profile' %}" class="name"> {{field.User_ID.User_ID.username}}  </a>
           {%else%} 
-                <a href="{{field.User_ID.get_url}}"> {{field.User_ID.User_ID.username}}  </a>
+                <a href="{{field.User_ID.get_url}}" class="name"> {{field.User_ID.User_ID.username}}  </a>
           {% endif %} 
-            <span> {{field.post_date}} </span>
-        </div>
-        <div class="forum-item">
-          <a href="{{field.get_url}}"> {{field.post_name}}  </a>
-          </div>
-        <div class="forum-item">
-          <span> {{field.contents}}</span>
+            <span class="date"> {{field.post_date}} </span>
         </div>
         <div class="post-item">
+          <a href="{{field.get_url}}" class="item2"> {{field.post_name}}  </a>
+          </div>
+        <div class="post-item">
+          <span> {{field.contents}}</span>
+        </div>
+        <div>
           <input type="button" value="Likes: 10" class="btn1"><i class="fa-regular fa-heart"></i>
           <a href="{{field.get_url}}"> Comments: {{field.num_comments}} </a>
       </section>
