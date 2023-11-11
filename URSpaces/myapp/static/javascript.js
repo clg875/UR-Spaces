@@ -19,6 +19,12 @@ function reveal() {
     y.action = "{% url 'comment_update' post.slug id %}"
   }
 
+  function deleteComment(id) {
+    var y = document.getElementById("deleteCommentForm");
+    y.action = "{% url 'comment_update' post.slug id %}";
+
+  }
+
   function confirmPost() {
     confirm("Are you sure you want to create this post?");
   }

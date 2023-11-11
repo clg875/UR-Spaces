@@ -72,10 +72,12 @@
               <input type="button" value="Likes: 10" class="btn1"><i class="fa-regular fa-heart"></i>
               {%if  field.User_ID.User_ID.username  == request.user.username%}
             </div>
-              <form action="." method="POST">
+              <form  method="POST" action="" id="deleteCommentForm">
               {% csrf_token %}
-              <input type="submit" value="Delete Comment" class="btn2" name="deleteComment_btn" >
+              <p name="deleteComment_btn"></p>
+              <!-- <input type="button" value="Delete Comment" class="btn2" name="deleteComment_btn" onclick="deleteComment('field{{field.id}}')" > -->
               </form>
+              <input type="button" value="Delete Comment" class="btn2" onclick="deleteComment('field{{field.id}}')" >
               <input type="button", onclick="revealComment('field{{field.id}}')", value="Edit Comment" class="btn2">
               {%else%}
               <input type="button" value="Report User" class="btn2">
