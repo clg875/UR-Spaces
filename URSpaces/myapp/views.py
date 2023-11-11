@@ -108,13 +108,6 @@ def posts(request, slug, pk =None):
             updateComment.User_ID = student
             updateComment.com_date = datetime.now()
             updateComment.save()
-
-        if "deleteComment_btn" in request.POST:
-            deleteComment = Comment.objects.get(pk=pk)
-            deleteComment.Post_ID = post 
-            deleteComment.User_ID = student
-            deleteComment.delete() 
-            return redirect("index")    
             
         if "deletePost_btn" in request.POST:
             deletePost = Posts.objects.get(pk = post.pk)
