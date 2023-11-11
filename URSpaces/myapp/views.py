@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
 from datetime import datetime
+from django.urls import reverse
 
 # Create your views here.
 
@@ -47,6 +48,7 @@ def signupPage(request):
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
 
+@login_required
 def report(request):
     return render(request, "report.html")
 
@@ -76,23 +78,36 @@ def posts(request, slug, pk =None):
     user = request.user
     currentUser = User.objects.get(username = user)
     error = False
-    # data = {'contents': post.contents, }
     form = UpdatePostForm(request.POST)
-    if pk:
-        commentform = UpdateCommentForm(instance=Comment.objects.get(pk=pk), data=request.POST)
+
+    if comments.exists():
+        firstCommentId = comments[0].id
+
+        if pk:
+            commentform = UpdateCommentForm(instance=Comment.objects.get(pk=pk), data=request.POST)
+        else:
+            commentform = UpdateCommentForm(instance=Comment.objects.get(pk=comments[0].pk), data=request.POST)
     else:
-        commentform = UpdateCommentForm(data=request.POST)
-    # deletePostform =DeletePostForm(request.POST)
+        firstCommentId = 0
+        commentform = None
+
+    try:
+        moderator = Moderator.objects.get(User_ID = currentUser)
+    except:
+        moderator = None
+
     context = {
         "post":post,
         "comments": comments,
         "error": error,
         "form": form,
         "commentform":commentform,
+        "moderator": moderator,
+        "firstCommentId": firstCommentId 
         # "deletePostform":deletePostform
     }
 
-    if currentUser.is_staff != True:
+    if moderator is None:
         
         student = Student.objects.get(User_ID = currentUser)
 
@@ -108,13 +123,17 @@ def posts(request, slug, pk =None):
             updateComment.User_ID = student
             updateComment.com_date = datetime.now()
             updateComment.save()
+            redirect_url = reverse('posts', args=[slug])
+            return redirect(redirect_url)
+
             
         if "deletePost_btn" in request.POST:
             deletePost = Posts.objects.get(pk = post.pk)
             deletePost.User_ID = student
             deletePost.SubForum_ID = forum
             deletePost.delete()
-            return redirect("index")
+            redirect_url = reverse('subforum', args=[forum.slug])
+            return redirect(redirect_url)
 
         if "editPost_form" in request.POST:
             
@@ -133,7 +152,10 @@ def posts(request, slug, pk =None):
                     "post":post,
                     "comments": comments,
                     "error": error,
-                    "form": form
+                    "form": form,
+                    "commentform":commentform,
+                    "moderator": moderator,
+                    "firstCommentId": firstCommentId 
                 }
                 return render(request, "posts.html", context2)
             
@@ -198,11 +220,20 @@ def profile(request):
 def user(request, slug):
     student= get_object_or_404(Student, slug=slug)
     post = Posts.objects.filter(User_ID = student)
+    user = request.user
+    currentUser = User.objects.get(username = user)
+
+    try:
+        moderator = Moderator.objects.get(User_ID = currentUser)
+    except:
+        moderator = None
+
     context = {
         "student": student,
-        "post": post
+        "post": post,
+        "moderator": moderator
     }
-    #added this to check for moderator but should just make the page unaccessable for a moderator
+
     return render(request, "user.html", context)
  
 

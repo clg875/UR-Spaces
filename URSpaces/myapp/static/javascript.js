@@ -7,7 +7,7 @@ function reveal() {
     }
   }
 
-  function revealComment(id) {
+  function revealComment(id, firstId) {
     var x = document.getElementById(id);
     var y = document.getElementById("editCommentForm");
     if (x.style.display === "none") {
@@ -16,7 +16,13 @@ function reveal() {
       x.style.display = "none";
     }
 
-    y.action = "{% url 'comment_update' post.slug id %}"
+    if( id == firstId)
+    {
+      y.action =".";
+    }
+    else{
+      y.action = "{% url 'comment_update' post.slug id %}";
+    }
   }
 
   function confirmPost() {

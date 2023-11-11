@@ -5,6 +5,7 @@
     
     {% block content %}
     <main>
+      <!-- Display Post -->
         <section class="box">
         <div class="forum-item">
             <a href="{{post.User_ID.get_url}}"> {{post.User_ID.User_ID.username}} </a>
@@ -19,15 +20,26 @@
         <div class="post-item">
           <input type="button" value="Likes: 10" class="btn1"><i class="fa-regular fa-heart"></i>
           <p> Comments: {{post.num_comments}} </p>
-          {%if  post.User_ID.User_ID.username  == request.user.username%}
+
+          <!-- Post Buttons available-->
+          {%if  post.User_ID.User_ID.username  == request.user.username or moderator is not None%}
           <form action="." method="POST">
             {% csrf_token %}
             <input type="submit" value="Delete Post" class="btn2" name="deletePost_btn" >
           </form>
-          <input onclick="reveal()", type="button" value="Edit Post" class="btn2">
-          {%else%}
-          <input type="button" value="Report User" class="btn2">
           {% endif %}
+
+          {%if moderator is None %}
+            {%if  post.User_ID.User_ID.username  == request.user.username %}
+          <input onclick="reveal()", type="button" value="Edit Post" class="btn2">
+            {%else%}
+          <input type="button" value="Report User" class="btn2">
+            {% endif %}
+          {%else %}
+          <input type="button" value="Ban User" class="btn2">
+          {% endif %}
+
+          <!-- Edit Post -->
           <div id = "reveal" style="display: none">
           <form action="." method="POST">
             {% csrf_token %}
@@ -53,8 +65,7 @@
 
       </section>
 
-      <!-- <button type="submit", name="addComment", value="addComment">Add Comment</button> -->
-        
+      <!-- Display Comments -->        
       {% for field in comments %}
         <section class="sub-box">
             <div class="forum-item">
@@ -70,17 +81,36 @@
             </div>
             <div class="post-item">
               <input type="button" value="Likes: 10" class="btn1"><i class="fa-regular fa-heart"></i>
-              {%if  field.User_ID.User_ID.username  == request.user.username%}
             </div>
+
+            <!-- Comment Buttons available-->
+            {%if moderator is  None%}
+              {%if  field.User_ID.User_ID.username  == request.user.username%}
+            
               <form action="." method="POST">
               {% csrf_token %}
               <input type="submit" value="Delete Comment" class="btn2" name="deleteComment_btn" >
+              <input type="button", onclick="revealComment('field{{field.id}}', 'field{{firstCommentId}}')", value="Edit Comment" class="btn2">
               </form>
-              <input type="button", onclick="revealComment('field{{field.id}}')", value="Edit Comment" class="btn2">
               {%else%}
+                
               <input type="button" value="Report User" class="btn2">
+                {% endif %}
+                {%else %}
+                <input type="button" value="Ban User" class="btn2">
               {% endif %}
-            
+
+              <!-- {%if moderator is  None%}
+                {%if  field.User_ID.User_ID.username  == request.user.username%}
+                <input type="button", onclick="revealComment('field{{field.id}}')", value="Edit Comment" class="btn2">
+                {%else%}
+                <input type="button" value="Report User" class="btn2">
+                {% endif %}
+              {%else %}
+              <input type="button" value="Ban User" class="btn2">
+              {% endif %} -->
+
+            <!-- Edit Comment -->  
               <form method="POST" action="{% url 'comment_update' post.slug field.pk %}" id="editCommentForm">
                 {% csrf_token %}
                 <div id = "field{{field.id}}" style="display: none">
@@ -107,6 +137,7 @@
           </section>
           {% endfor %}
 
+          <!-- Add Comment -->
           <form action="." method="POST">
             {% csrf_token %}
             <section class="sub-box">         

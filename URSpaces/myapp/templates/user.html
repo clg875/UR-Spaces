@@ -16,8 +16,15 @@
             <div class="forum-item">
               <span> {{student.bio}}</span>
             </div>
+            {%if moderator is  None%}
             <div class="user-item">
-              <input type="button" value="Ban User" class="btn2">
+              <input type="button" value="Report User" class="btn2">
+            </div>
+            {%else %}
+            <div class="user-item">
+                <input type="button" value="Ban User" class="btn2">
+              </div>
+            {% endif %}
           </section>
 
           {% for field in post %}

@@ -23,7 +23,7 @@
           <div class="user-panel">
             <i class="fa-regular fa-circle-user"></i><a href="{% url 'profile' %}"> Username </a> 
             {% if request.user.is_staff%}
-            <i class="fa-solid fa-gear"></i><a href="#"> Reports </a>
+            <i class="fa-solid fa-gear"></i><a href="{% url 'report' %}"> Reports </a>
             {%else%}
             <i class="fa-solid fa-gear"></i><a href="{% url 'setting' %}"> Settings </a>
             {% endif %}
@@ -39,5 +39,6 @@
         <a href="{% url 'about' %}">About</a>
       </footer>
     </div>
+    <script src="{% static 'javascript.js' %}"></script>
   </body>
 </html>
