@@ -25,6 +25,7 @@ function reveal() {
     }
   }
 
+
   function confirmPost() {
     confirm("Are you sure you want to create this post?");
   }

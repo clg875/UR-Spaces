@@ -87,9 +87,9 @@
             {%if moderator is  None%}
               {%if  field.User_ID.User_ID.username  == request.user.username%}
             
-              <form action="." method="POST">
+              <form action="{% url 'comment_update' post.slug  field.id %}" method="POST" id="deleteCommentForm">
               {% csrf_token %}
-              <input type="submit" value="Delete Comment" class="btn2" name="deleteComment_btn" >
+              <input type="submit" value="Delete Comment" class="btn2" name="deleteComment_btn">
               <input type="button", onclick="revealComment('field{{field.id}}', 'field{{firstCommentId}}')", value="Edit Comment" class="btn2">
               </form>
               {%else%}

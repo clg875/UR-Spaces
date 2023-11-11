@@ -125,6 +125,18 @@ def posts(request, slug, pk =None):
             updateComment.save()
             redirect_url = reverse('posts', args=[slug])
             return redirect(redirect_url)
+        
+        if "deleteComment_btn" in request.POST:
+            if comments.exists() and pk is None:
+                CommentId = comments[0].id
+            else:
+                CommentId = pk
+            deleteComment = Comment.objects.get(pk = CommentId)
+            deleteComment.Post_ID = post 
+            deleteComment.User_ID = student
+            deleteComment.delete()
+            redirect_url = reverse('posts', args=[slug])
+            return redirect(redirect_url)
 
             
         if "deletePost_btn" in request.POST:
