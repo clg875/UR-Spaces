@@ -161,6 +161,26 @@ def posts(request, slug, pk =None):
 
     }
 
+    if "deleteComment_btn" in request.POST:
+            if comments.exists() and pk is None:
+                CommentId = comments[0].id
+            else:
+                CommentId = pk
+            deleteComment = Comment.objects.get(pk = CommentId)
+            deleteComment.Post_ID = post 
+            deleteComment.User_ID = post.User_ID
+            deleteComment.delete()
+            redirect_url = reverse('posts', args=[slug])
+            return redirect(redirect_url)
+    
+    if "deletePost_btn" in request.POST:
+            deletePost = Posts.objects.get(pk = post.pk)
+            deletePost.User_ID = post.User_ID
+            deletePost.SubForum_ID = forum
+            deletePost.delete()
+            redirect_url = reverse('subforum', args=[forum.slug])
+            return redirect(redirect_url)
+
     if moderator is None:
         
         student = Student.objects.get(User_ID = currentUser)
@@ -180,17 +200,17 @@ def posts(request, slug, pk =None):
             redirect_url = reverse('posts', args=[slug])
             return redirect(redirect_url)
         
-        if "deleteComment_btn" in request.POST:
-            if comments.exists() and pk is None:
-                CommentId = comments[0].id
-            else:
-                CommentId = pk
-            deleteComment = Comment.objects.get(pk = CommentId)
-            deleteComment.Post_ID = post 
-            deleteComment.User_ID = student
-            deleteComment.delete()
-            redirect_url = reverse('posts', args=[slug])
-            return redirect(redirect_url)
+        # if "deleteComment_btn" in request.POST:
+        #     if comments.exists() and pk is None:
+        #         CommentId = comments[0].id
+        #     else:
+        #         CommentId = pk
+        #     deleteComment = Comment.objects.get(pk = CommentId)
+        #     deleteComment.Post_ID = post 
+        #     deleteComment.User_ID = post.User_ID
+        #     deleteComment.delete()
+        #     redirect_url = reverse('posts', args=[slug])
+        #     return redirect(redirect_url)
         
         if "reportComment_btn" in request.POST:
             if comments.exists() and pk is None:
@@ -233,13 +253,13 @@ def posts(request, slug, pk =None):
             return render(request, "posts.html", context2)
 
             
-        if "deletePost_btn" in request.POST:
-            deletePost = Posts.objects.get(pk = post.pk)
-            deletePost.User_ID = student
-            deletePost.SubForum_ID = forum
-            deletePost.delete()
-            redirect_url = reverse('subforum', args=[forum.slug])
-            return redirect(redirect_url)
+        # if "deletePost_btn" in request.POST:
+        #     deletePost = Posts.objects.get(pk = post.pk)
+        #     deletePost.User_ID = student
+        #     deletePost.SubForum_ID = forum
+        #     deletePost.delete()
+        #     redirect_url = reverse('subforum', args=[forum.slug])
+        #     return redirect(redirect_url)
         
 
         if "editPost_form" in request.POST:
@@ -250,6 +270,8 @@ def posts(request, slug, pk =None):
                 updatePost.User_ID = student
                 updatePost.SubForum_ID = forum
                 updatePost.post_name = post.post_name
+                updatePost.slug = post.slug
+                updatePost.reported =post.reported
                 updatePost.post_date = datetime.now()
                 updatePost.save()
 
@@ -282,6 +304,7 @@ def settings(request):
             bio = form.cleaned_data.get('username')
             updateProfile.pk = student.pk
             updateProfile.User_ID = student.User_ID
+            updateProfile.slug =student.slug
             updateProfile.save()
         return redirect("profile")
         
@@ -362,8 +385,12 @@ def subforum(request, slug):
     currentUser = User.objects.get(username = user)
     error = False
 
-   #change this to check for moderator field
-    if currentUser.is_staff != True:
+    try:
+        moderator = Moderator.objects.get(User_ID = currentUser)
+    except:
+        moderator = None
+
+    if moderator is None:
         student = Student.objects.get(User_ID = currentUser)
 
         if "newPost_form" in request.POST:
@@ -377,7 +404,8 @@ def subforum(request, slug):
     context = {
         "forum": forum,
         "post" : post,
-        "error": error
+        "error": error,
+        "moderator": moderator,
 
     }
     return render(request, "subforum.html", context)

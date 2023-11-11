@@ -8,15 +8,9 @@
 
     <main>
 
-      <!-- <form method="post" action="posts.html">
-        {% csrf_token %}
-            <button type="submit", name="newItem", value="newItem">Add Item</button>	
-            <input type="text", name="new">
-            <button type="submit", name="save", value="save">Save</button>
-            <input type="button" value="Create New Post" class="btn2">
-        </form> -->
-
+      {%if moderator is None%}
       <button onclick="reveal()", type="submit", name="createPost", value="createPost">Create New Post</button>
+      {%endif%}
   <div id = "reveal" style="display: none">
       <form action="." method="POST">
         {% csrf_token %}
@@ -51,7 +45,7 @@
         <div class="forum-item"> 
           {%if  field.User_ID.User_ID.username  == request.user.username%}
                 <a href="{% url 'profile' %}"> {{field.User_ID.User_ID.username}}  </a>
-                {%else%} 
+          {%else%} 
                 <a href="{{field.User_ID.get_url}}"> {{field.User_ID.User_ID.username}}  </a>
           {% endif %} 
             <span> {{field.post_date}} </span>
@@ -65,12 +59,6 @@
         <div class="post-item">
           <input type="button" value="Likes: 10" class="btn1"><i class="fa-regular fa-heart"></i>
           <a href="{{field.get_url}}"> Comments: {{field.num_comments}} </a>
-          <!-- {%if  field.User_ID.User_ID.username  == request.user.username%}
-          <input type="button" value="Delete Post" class="btn2">
-          <input type="button" value="Edit Post" class="btn2">
-          {%else%}
-          <input type="button" value="Report User" class="btn2">
-          {% endif %} -->
       </section>
       {% endfor %}
 

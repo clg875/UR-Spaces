@@ -30,9 +30,12 @@
               </div>
               {% endif %}
             {%else %}
-            <div class="user-item">
-                <input type="button" value="Ban User" class="btn2">
+            <form action="{% url 'report_update' student.id %}" method="POST" >
+              {% csrf_token %}
+              <div class="user-item">
+                <input type="submit" name="banUser_btn" value="Ban User" class="btn2">
               </div>
+              </form>
             {% endif %}
           </section>
 
