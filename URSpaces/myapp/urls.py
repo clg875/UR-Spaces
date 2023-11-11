@@ -1,7 +1,9 @@
+from django.contrib import admin
 from django.urls import path
 from .views import signin, help, about, index, posts, service, settings, signupPage, user, subforum, profile, report
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path("login/", signin, name="login"),
     path("", signin, name="login"),
     path("help/", help, name="help"),
