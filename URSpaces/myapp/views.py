@@ -180,6 +180,40 @@ def posts(request, slug, pk =None):
             deletePost.delete()
             redirect_url = reverse('subforum', args=[forum.slug])
             return redirect(redirect_url)
+    
+    if "lockPost_btn" in request.POST:
+            lockPost = Posts.objects.get(pk = post.pk)
+            lockPost.pk = post.pk
+            lockPost.User_ID = post.User_ID
+            lockPost.SubForum_ID = forum
+            lockPost.post_name =post.post_name
+            lockPost.contents =post.contents
+            lockPost.post_date =post.post_date
+            lockPost.count_likes = post.count_likes
+            lockPost.reported = post.reported
+            lockPost.pin = post.pin
+            lockPost.locked = True
+            lockPost.slug = post.slug  
+            lockPost.save()
+            redirect_url = reverse('subforum', args=[forum.slug])
+            return redirect(redirect_url)
+    
+    if "unlockPost_btn" in request.POST:
+            unlockPost = Posts.objects.get(pk = post.pk)
+            unlockPost.pk = post.pk
+            unlockPost.User_ID = post.User_ID
+            unlockPost.SubForum_ID = forum
+            unlockPost.post_name =post.post_name
+            unlockPost.contents =post.contents
+            unlockPost.post_date =post.post_date
+            unlockPost.count_likes = post.count_likes
+            unlockPost.reported = post.reported
+            unlockPost.pin = post.pin
+            unlockPost.locked = False
+            unlockPost.slug = post.slug  
+            unlockPost.save()
+            redirect_url = reverse('subforum', args=[forum.slug])
+            return redirect(redirect_url)
 
     if moderator is None:
         
@@ -199,19 +233,7 @@ def posts(request, slug, pk =None):
             updateComment.save()
             redirect_url = reverse('posts', args=[slug])
             return redirect(redirect_url)
-        
-        # if "deleteComment_btn" in request.POST:
-        #     if comments.exists() and pk is None:
-        #         CommentId = comments[0].id
-        #     else:
-        #         CommentId = pk
-        #     deleteComment = Comment.objects.get(pk = CommentId)
-        #     deleteComment.Post_ID = post 
-        #     deleteComment.User_ID = post.User_ID
-        #     deleteComment.delete()
-        #     redirect_url = reverse('posts', args=[slug])
-        #     return redirect(redirect_url)
-        
+
         if "reportComment_btn" in request.POST:
             if comments.exists() and pk is None:
                 CommentId = comments[0].id
@@ -235,9 +257,7 @@ def posts(request, slug, pk =None):
             reportPost.reported = True
             reportPost.pin = post.pin
             reportPost.locked = post.locked
-            reportPost.slug = post.slug
-                
-            reportPost.reported = True
+            reportPost.slug = post.slug               
             reportPost.save()
             post = Posts.objects.get(pk = reportPost.pk)
 
@@ -251,16 +271,6 @@ def posts(request, slug, pk =None):
                     "firstCommentId": firstCommentId,
             }
             return render(request, "posts.html", context2)
-
-            
-        # if "deletePost_btn" in request.POST:
-        #     deletePost = Posts.objects.get(pk = post.pk)
-        #     deletePost.User_ID = student
-        #     deletePost.SubForum_ID = forum
-        #     deletePost.delete()
-        #     redirect_url = reverse('subforum', args=[forum.slug])
-        #     return redirect(redirect_url)
-        
 
         if "editPost_form" in request.POST:
             

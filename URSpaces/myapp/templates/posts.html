@@ -6,8 +6,20 @@
     {% block content %}
     <main>
 
-      {%if moderator is  not None%}
-      <button  type="submit", name="lockPost", value="lockPost">Lock Post</button>
+      {%if moderator is not None%}
+        {%if post.locked == False %}
+        <form action="." method="POST" >
+          {% csrf_token %} 
+          <button  type="submit", name="lockPost_btn">Lock Post</button>
+        </form>
+        {%else%}
+        <form action="." method="POST" >
+          {% csrf_token %} 
+          <button  type="submit", name="unlockPost_btn">Unlock Post</button>
+        </form>
+        {%endif%}
+      {%elif post.locked == True %}
+      <p>This post has been locked. An adequate answer was provided.</p>
       {%endif%}
       <!-- Display Post -->
         <section class="box">
@@ -164,18 +176,20 @@
           {% endfor %}
 
           <!-- Add Comment -->
-          {%if moderator is None%}
-          <form action="." method="POST">
-            {% csrf_token %}
-            <section class="sub-box">         
-            <div class="forum-item">
-              <textarea name="newContents"  cols="130" rows="3" placeholder="Input comment here..."></textarea>
-            </div>
-            <div class="forum-item">
-              <input type="submit" value="Submit" name="newComment_form">
-            </div>
-          </section>
-        </form>
+          {%if moderator is None %}
+            {% if post.locked == False%}
+            <form action="." method="POST">
+              {% csrf_token %}
+              <section class="sub-box">         
+              <div class="forum-item">
+                <textarea name="newContents"  cols="130" rows="3" placeholder="Input comment here..."></textarea>
+              </div>
+              <div class="forum-item">
+                <input type="submit" value="Submit" name="newComment_form">
+              </div>
+              </section>
+            </form>
+            {%endif%}
         {%endif%}
 
     </main>
