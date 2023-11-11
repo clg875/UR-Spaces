@@ -23,21 +23,21 @@
       {%endif%}
       <!-- Display Post -->
         <section class="box">
-        <div class="forum-item">
+        <div class="post-item">
           {%if  post.User_ID.User_ID.username  == request.user.username %}
-            <a href="{% url 'profile' %}"> {{post.User_ID.User_ID.username}} </a>
+            <a href="{% url 'profile' %}" class="name"> {{post.User_ID.User_ID.username}} </a>
           {%else%}
-            <a href="{{post.User_ID.get_url}}"> {{post.User_ID.User_ID.username}} </a>
+            <a href="{{post.User_ID.get_url}}" class="name"> {{post.User_ID.User_ID.username}} </a>
           {% endif%}
-            <span> {{post.post_date}} </span>
-        </div>
-        <div class="forum-item">
-          <span> {{post.post_name}} </span>
-        </div>
-        <div class="forum-item">
-          <span> {{post.contents}} </span>
+            <span class="date"> {{post.post_date}} </span>
         </div>
         <div class="post-item">
+          <span class="item2"> {{post.post_name}} </span>
+        </div>
+        <div class="post-item">
+          <span> {{post.contents}} </span>
+        </div>
+        <div>
           <input type="button" value="Likes: 10" class="btn1"><i class="fa-regular fa-heart"></i>
           <p> Comments: {{post.num_comments}} </p>
 
@@ -59,7 +59,7 @@
                 <input type="submit" value="Report Post" class="btn2" name="reportPost_btn">
                 </form>
                 {%else %}
-                <div class="forum-item">
+                <div class="post-item">
                   <p style="color: red">Post Reported</p>
                 </div>
                 {% endif %}
@@ -77,19 +77,19 @@
           <form action="." method="POST">
             {% csrf_token %}
             <section class="box">
-            <div class="forum-item">
+            <div class="post-item">
               <p> Edit Contents: </p>
             </div>
-            <div class="forum-item">
+            <div class="post-item">
               {{form.contents}}
             </div>
             {% if error %}
-            <div class="forum-item">
+            <div class="post-item">
                     <p style="color: red">Content cannot be blank.</p>
             </div>
             {%endif%}
             
-            <div class="forum-item">
+            <div class="post-item">
               <input type="submit" value="Submit" name="editPost_form">
             </div>
           </section>
@@ -101,18 +101,18 @@
       <!-- Display Comments -->        
       {% for field in comments %}
         <section class="sub-box">
-            <div class="forum-item">
+            <div class="post-item">
               {%if  field.User_ID.User_ID.username  == request.user.username%}
-                <a href="{% url 'profile' %}"> {{field.User_ID.User_ID.username}}  </a>
+                <a href="{% url 'profile' %}" class="name"> {{field.User_ID.User_ID.username}}  </a>
                 {%else%} 
-                <a href="{{field.User_ID.get_url}}"> {{field.User_ID.User_ID.username}}  </a>
+                <a href="{{field.User_ID.get_url}}" class="name"> {{field.User_ID.User_ID.username}}  </a>
                 {% endif %} 
-                <span> {{field.com_date}} </span>
-            </div>
-            <div class="forum-item">
-              <span> {{field.com_contents}} </span>
+                <span class="date"> {{field.com_date}} </span>
             </div>
             <div class="post-item">
+              <span> {{field.com_contents}} </span>
+            </div>
+            <div>
               <input type="button" value="Likes: 10" class="btn1"><i class="fa-regular fa-heart"></i>
             </div>
 
@@ -134,7 +134,7 @@
                 <input type="submit" value="Report User" class="btn2" name="reportComment_btn">
                 </form>
                 {%else %}
-                <div class="forum-item">
+                <div class="post-item">
                   <p style="color: red">Comment Reported</p>
                 </div>
                 {% endif %}
@@ -153,19 +153,19 @@
                 {% csrf_token %}
                 <div id = "field{{field.id}}" style="display: none">
                 <section class="sub-box">
-                <div class="forum-item">
+                <div class="post-item">
                   <p> Edit Comment: </p>
                 </div>
-                <div class="forum-item">
+                <div class="post-item">
                   {{commentform.com_contents}}
 
                 </div>
                 {% if error %}
-                <div class="forum-item">
+                <div class="post-item">
                         <p style="color: red">Comment cannot be blank.</p>
                 </div>
                 {%endif%}
-                <div class="forum-item">
+                <div class="post-item">
                   <input type="submit" value="Submit" name="editComment_form">
                 </div>
               </section>
@@ -181,10 +181,10 @@
             <form action="." method="POST">
               {% csrf_token %}
               <section class="sub-box">         
-              <div class="forum-item">
+              <div class="post-item">
                 <textarea name="newContents"  cols="130" rows="3" placeholder="Input comment here..."></textarea>
               </div>
-              <div class="forum-item">
+              <div class="post-item">
                 <input type="submit" value="Submit" name="newComment_form">
               </div>
               </section>
