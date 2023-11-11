@@ -143,6 +143,14 @@ form p {
   justify-content: space-between; /* Spacing out the links and the topic count */
   background-color: #85c0ff;
   border-radius: 10px;
+  padding: 1px;
+}
+
+.post-item {
+  display: flex;
+  justify-content: space-between;
+  border-radius: 10px;
+  padding: 1px;
 }
 
 .user-item {
@@ -184,6 +192,21 @@ form p {
   margin-right: 10px;
 }
 
+.name {
+  font-family: cursive;
+  margin-left: 5px;
+}
+
+.date {
+  font-size: 15px;
+  color: rgb(146, 145, 145);
+}
+
+.item2 {
+  font-weight: bold;
+  font-size: 18px;
+}
+
 .box {
     display: flex;
     flex-direction: column;
@@ -201,7 +224,7 @@ form p {
     border-radius: 10px;
     padding: 10px;
     margin: 10px;
-    background-color: #85c0ff;
+    background-color: #82b1e3;
 }
 
 .settings {
@@ -252,9 +275,9 @@ a.title:hover {
     color: #1e5606;
 }
 
-/*a:active {
+a:active {
     text-decoration: none;
-}*/
+}
 
 .err_msg
 {
