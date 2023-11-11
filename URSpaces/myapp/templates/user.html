@@ -9,11 +9,11 @@
 
     
         <section class="box">
-            <div class="forum-item">
+            <div class="post-item">
                 <p> {{student.User_ID.username}} </p>
                 <span> {{student.User_ID.date_joined}}</span>
             </div>
-            <div class="forum-item">
+            <div class="post-item">
               <span> {{student.bio}}</span>
             </div>
             {%if moderator is  None%}
@@ -25,7 +25,7 @@
               </div>
               </form>
               {%else %}
-              <div class="forum-item">
+              <div class="post-item">
               <p style="color: red">User Reported</p>
               </div>
               {% endif %}
@@ -41,14 +41,14 @@
 
           {% for field in post %}
             <section class="sub-box">
-                <div class="forum-item">
+                <div class="post-item">
                     <p> {{field.User_ID.User_ID.username}} </p>
                     <span> {{field.post_date}} </span>
                 </div>
-                <div class="forum-item">
+                <div class="post-item">
                   <a href="{{field.get_url}}"> {{field.post_name}}  </a>
                   </div>
-                  <div class="forum-item">
+                  <div class="post-item">
                     <span> {{field.contents}} </span>
                   </div>
             </section>
