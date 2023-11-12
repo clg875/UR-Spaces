@@ -8,7 +8,7 @@
         <title>UR Spaces</title>
         <link rel="stylesheet" href="{%static 'style.css' %}"/>
         <script src="https://kit.fontawesome.com/1d7b5c0471.js" crossorigin="anonymous"></script>
-        <script src="{% static 'javascript.js' %}"></script>
+        <!-- <script src="{% static 'javascript.js' %}"></script> -->
     </head>
 
   <body>
@@ -21,9 +21,9 @@
 
         <aside id="aside">
           <div class="user-panel">
-            <i class="fa-regular fa-circle-user"></i><a href="{% url 'profile' %}"> Username </a> 
+            <i class="fa-regular fa-circle-user"></i><a href="{% url 'profile' %}"> {{request.user.username}} </a> 
             {% if request.user.is_staff%}
-            <i class="fa-solid fa-gear"></i><a href="{% url 'report' %}"> Reports </a>
+            <i class="fa-solid fa-file-lines"></i><a href="{% url 'report' %}"> Reports </a>
             {%else%}
             <i class="fa-solid fa-gear"></i><a href="{% url 'setting' %}"> Settings </a>
             {% endif %}

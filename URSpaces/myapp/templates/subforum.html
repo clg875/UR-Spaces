@@ -12,7 +12,7 @@
       <button onclick="reveal()", type="submit", name="createPost", value="createPost">Create New Post</button>
       {%endif%}
   <div id = "reveal" style="display: none">
-      <form action="." method="POST">
+      <form action="." method="POST"   onsubmit="return validatePost()">
         {% csrf_token %}
         <section class="box">
         <div class="post-item">
@@ -27,11 +27,6 @@
         <div class="post-item">
           <textarea name="newContents"  cols="130" rows="3" placeholder="Input text here..."></textarea>
         </div>
-        {% if error %}
-        <div class="post-item">
-                <p style="color: red">Header and content must be filled out.</p>
-        </div>
-        {%endif%}
         
         <div class="post-item">
           <input type="submit" value="Submit" name="newPost_form">

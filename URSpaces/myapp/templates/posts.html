@@ -43,7 +43,7 @@
 
           <!-- Post Buttons available-->
           {%if  post.User_ID.User_ID.username  == request.user.username or moderator is not None%}
-          <form action="." method="POST">
+          <form action="." method="POST" onsubmit="return confirmDelete();">
             {% csrf_token %}
             <input type="submit" value="Delete Post" class="btn2" name="deletePost_btn" >
           </form>
@@ -54,7 +54,7 @@
             <input onclick="reveal()", type="button" value="Edit Post" class="btn2">
             {%else%}
               {%if post.reported == False%} 
-                <form action="." method="POST" id="reportPostForm">
+                <form action="." method="POST" id="reportPostForm" onsubmit="return confirmReport()">
                 {% csrf_token %}
                 <input type="submit" value="Report Post" class="btn2" name="reportPost_btn">
                 </form>
@@ -66,7 +66,7 @@
 
             {% endif %}
           {%else %}
-          <form action="{% url 'report_update' post.id %}" method="POST" >
+          <form action="{% url 'report_update' post.id %}" method="POST" onsubmit="return confirmBanUser(event)" >
             {% csrf_token %}
             <input type="submit" name="banUserPost_btn" value="Ban User" class="btn2">
           </form>
@@ -74,7 +74,7 @@
 
           <!-- Edit Post -->
           <div id = "reveal" style="display: none">
-          <form action="." method="POST">
+          <form action="." method="POST" >
             {% csrf_token %}
             <section class="box">
             <div class="post-item">
@@ -83,11 +83,6 @@
             <div class="post-item">
               {{form.contents}}
             </div>
-            {% if error %}
-            <div class="post-item">
-                    <p style="color: red">Content cannot be blank.</p>
-            </div>
-            {%endif%}
             
             <div class="post-item">
               <input type="submit" value="Submit" name="editPost_form">
@@ -118,7 +113,7 @@
 
             <!-- Comment Buttons available-->            
             {%if  field.User_ID.User_ID.username  == request.user.username or moderator is not None%}            
-            <form action="{% url 'comment_update' post.slug  field.id %}" method="POST" id="deleteCommentForm">
+            <form action="{% url 'comment_update' post.slug  field.id %}" method="POST" id="deleteCommentForm" onsubmit="return confirmDelete();">
             {% csrf_token %}
             <input type="submit" value="Delete Comment" class="btn2" name="deleteComment_btn">
             </form>
@@ -129,7 +124,7 @@
               <input type="button", onclick="revealComment('field{{field.id}}', 'field{{firstCommentId}}')", value="Edit Comment" class="btn2">
               {%else%}
                 {%if field.reported == False%} 
-                <form action="{% url 'comment_update' post.slug  field.id %}" method="POST" id="reportCommentForm">
+                <form action="{% url 'comment_update' post.slug  field.id %}" method="POST" id="reportCommentForm" onsubmit="return confirmReport()">
                   {% csrf_token %} 
                 <input type="submit" value="Report User" class="btn2" name="reportComment_btn">
                 </form>
@@ -141,7 +136,7 @@
 
               {% endif %}
             {%else %}
-            <form action="{% url 'report_update' field.id  %}" method="POST" >
+            <form action="{% url 'report_update' field.id  %}" method="POST" onsubmit="return confirmBanUser(event)">
               {% csrf_token %}
               <input button type="submit" name="banUserComment_btn" value="Ban User" class="btn2">
             </form>
@@ -178,11 +173,11 @@
           <!-- Add Comment -->
           {%if moderator is None %}
             {% if post.locked == False%}
-            <form action="." method="POST">
+            <form action="." method="POST" onsubmit="return validateComment()">
               {% csrf_token %}
               <section class="sub-box">         
               <div class="post-item">
-                <textarea name="newContents"  cols="130" rows="3" placeholder="Input comment here..."></textarea>
+                <textarea name="newCommentContents"  cols="130" rows="3" placeholder="Input comment here..."></textarea>
               </div>
               <div class="post-item">
                 <input type="submit" value="Submit" name="newComment_form">

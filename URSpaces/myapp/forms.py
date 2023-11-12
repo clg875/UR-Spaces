@@ -16,7 +16,7 @@ class UpdateProfileForm(forms.ModelForm):
     
     class Meta:
         model = Student
-        fields = ("avatar", "bio" )
+        fields = ("bio", )
 
 class UpdatePostForm(forms.ModelForm):
 

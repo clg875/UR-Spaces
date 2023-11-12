@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
 from datetime import datetime
 from django.urls import reverse
+from django.utils.crypto import get_random_string
 
 # Create your views here.
 
@@ -220,7 +221,7 @@ def posts(request, slug, pk =None):
         student = Student.objects.get(User_ID = currentUser)
 
         if "newComment_form" in request.POST:
-            content = request.POST.get("newContents")
+            content = request.POST.get("newCommentContents")
 
             new_comment, created = Comment.objects.get_or_create(User_ID = student, Post_ID = post, com_contents = content)
 
@@ -408,7 +409,7 @@ def subforum(request, slug):
             content = request.POST.get("newContents")
 
             if header != "" and content != "":
-                new_post, created = Posts.objects.get_or_create(User_ID = student, SubForum_ID = forum, post_name = header, contents = content, slug = slugify(header))
+                new_post, created = Posts.objects.get_or_create(User_ID = student, SubForum_ID = forum, post_name = header, contents = content, slug = slugify(header)+get_random_string(5))
             else:
                 error = True
     context = {
