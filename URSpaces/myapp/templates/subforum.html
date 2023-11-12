@@ -58,7 +58,7 @@
         <div class="post-item">
           <span> {{field.contents}}</span>
         </div>
-        <div>
+        <div class = "like-item">
           <form action="{% url 'post_like' field.id %}" method="POST">
             {% csrf_token %}
             <button type="submit" name="post_id" value="{{field.id}}" class="btn btn-info">Like</button> - {{ field.total_likes }} Likes
