@@ -11,31 +11,31 @@
     {% if student is not None %}
     
         <section class="box">
-            <div class="forum-item">
-                <h1> {{user.username}} </h1>
-                <span> {{user.date_joined}}</span>
+            <div class="post-item">
+                <h1 class="name1"> {{user.username}} </h1>
+                <span class="date"> {{user.date_joined}}</span>
             </div>
-            <div class="forum-item">
+            <div class="post-item">
               <span> {{student.bio}}</span>
             </div>
           </section>
 
           {% for field in posts %}
             <section class="sub-box">
-                <div class="forum-item">
-                    <p> {{field.User_ID.User_ID.username}}</p>
-                    <span> {{field.post_date}} </span>
+                <div class="post-item">
+                    <p class="name"> {{field.User_ID.User_ID.username}}</p>
+                    <span class="date"> {{field.post_date}} </span>
                 </div>
-                <div class="forum-item">
-                  <a href="{{field.get_url}}"> {{field.post_name}}  </a>
+                <div class="post-item">
+                  <a href="{{field.get_url}}" class="item2"> {{field.post_name}}  </a>
                   </div>
-                <div class="forum-item">
+                <div class="post-item">
                   <span> {{field.contents}}</span>
                 </div>
             </section>
             {% endfor %}
             {%else%}
-              <div class="forum-item">
+              <div class="post-item">
                 <p > This is a moderator profile. You have the ability to ban users, pin posts, 
                   lock posts, and delete unwanted content</p>
               </div>
