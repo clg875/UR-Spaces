@@ -10,12 +10,12 @@
         {%if post.locked == False %}
         <form action="." method="POST" >
           {% csrf_token %} 
-          <button  type="submit", name="lockPost_btn">Lock Post</button>
+          <button  type="submit", name="lockPost_btn" class = "post-btn">Lock Post</button>
         </form>
         {%else%}
         <form action="." method="POST" >
           {% csrf_token %} 
-          <button  type="submit", name="unlockPost_btn">Unlock Post</button>
+          <button  type="submit", name="unlockPost_btn" class = "post-btn">Unlock Post</button>
         </form>
         {%endif%}
       {%elif post.locked == True %}
