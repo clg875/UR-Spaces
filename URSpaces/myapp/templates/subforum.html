@@ -52,7 +52,10 @@
           <span> {{field.contents}}</span>
         </div>
         <div>
-          <input type="button" value="Likes: 10" class="btn1"><i class="fa-regular fa-heart"></i>
+          <form action="{% url 'post_like' field.id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" name="post_id" value="{{field.id}}" class="btn btn-info">Like</button> - {{ field.total_likes }} Likes
+          </form>
           <a href="{{field.get_url}}"> Comments: {{field.num_comments}} </a>
       </section>
       {% endfor %}

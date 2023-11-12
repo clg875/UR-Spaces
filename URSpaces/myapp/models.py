@@ -69,11 +69,15 @@ class Posts(models.Model):
     reported = models.BooleanField(default=False)
     post_date = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=400, unique=True, blank=True)
+    likes = models.ManyToManyField(User, related_name="post_like")
 
     # def save(self, *args, **kwargs):
     #     if not self.slug:
     #         self.slug = slugify(self.post_name)
     #         super(Posts, self).save(*args, **kwargs)
+
+    def total_likes(self):
+        return self.likes.count()
     
     def get_url(self):
         return reverse("posts", kwargs={
@@ -96,6 +100,10 @@ class Comment(models.Model):
     reported = models.BooleanField(default=False)
     com_contents = models.TextField(max_length=500)
     com_date = models.DateTimeField(auto_now_add=True)
+    likes = models.ManyToManyField(User, related_name="comment_like")
+
+    def total_likes(self):
+        return self.likes.count()
 
     def __str__(self):
         return f"{self.Post_ID} {self.User_ID}"

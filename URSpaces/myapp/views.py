@@ -9,6 +9,7 @@ from django.utils.text import slugify
 from datetime import datetime
 from django.urls import reverse
 from django.utils.crypto import get_random_string
+from django.views.generic.detail import DetailView
 
 # Create your views here.
 
@@ -421,4 +422,49 @@ def subforum(request, slug):
     }
     return render(request, "subforum.html", context)
 
+def PostLike(request, pk):
+    post = get_object_or_404(Posts, id=request.POST.get('post_id'))
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+    else:
+        post.likes.add(request.user)
+    redirect_url = reverse('subforum', args=[post.SubForum_ID.slug])
+    return redirect(redirect_url)
+
+def CommentLike(request, pk):
+    post = get_object_or_404(Comment, id=request.POST.get('comment_id'))
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+    else:
+        post.likes.add(request.user)
+
+    redirect_url = reverse('post', args=[post.Post_ID.slug])
+    return redirect(redirect_url)
+
+
+class PostDetailView(DetailView):
+    model = Posts
+    #template_name = subforum.html
+    # context_object_name = 'object'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        stuff = get_object_or_404(Posts, id=self.kwargs['pk'])
+        total_likes = stuff.total_likes()
+        context["total_likes"] = total_likes
+        return context
+    
+class CommentDetailView(DetailView):
+    model = Comment
+    # template_name = MainApp/BlogPost_detail.html
+    # context_object_name = 'object'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        stuff = get_object_or_404(Comment, id=self.kwargs['pk'])
+        total_likes = stuff.total_likes()
+        context["total_likes"] = total_likes
+        return context
 

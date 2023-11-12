@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from .views import signin, help, about, index, posts, service, settings, signupPage, user, subforum, profile, report
+from .views import signin, help, about, index, posts, service, settings, signupPage, user, subforum, profile, report, PostLike, CommentLike
 
 urlpatterns = [
     #path('admin/', admin.site.urls),
@@ -18,6 +18,8 @@ urlpatterns = [
     path("profile/", profile, name="profile"),
     path("subforum/<slug>/", subforum, name="subforum"),
     path("report/", report, name="report"),
-     path('report/<pk>/', report, name='report_update'),
-
+    path('report/<pk>/', report, name='report_update'),
+    path('like/<int:pk>', PostLike, name='post_like'),
+    path('commentlike/<int:pk>', CommentLike, name='comment_like')
+    
 ]
