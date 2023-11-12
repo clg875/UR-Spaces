@@ -115,16 +115,12 @@
             </div>
 
             <!-- Comment Buttons available-->  
-           <!-- <!--My try-->
-            <div class="comment-actions">
-            <input type="button" onclick="revealComment('field{{field.id}}', 'field{{firstCommentId}}')" value="Edit Comment" class="btn2">   
-             <!--My try-->  -->
+           
             {%if  field.User_ID.User_ID.username  == request.user.username or moderator is not None%}            
             <form action="{% url 'comment_update' post.slug  field.id %}" method="POST" id="deleteCommentForm" onsubmit="return confirmAction(event);">
             {% csrf_token %}
             <input type="submit" value="Delete Comment" class="btn2" name="deleteComment_btn">
             </form>
-            </div>
             {%endif%}
             
             {%if moderator is None %}
