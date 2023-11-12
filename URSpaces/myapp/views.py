@@ -241,6 +241,8 @@ def posts(request, slug, pk =None):
             content = request.POST.get("newCommentContents")
 
             new_comment, created = Comment.objects.get_or_create(User_ID = student, Post_ID = post, com_contents = content)
+            redirect_url = reverse('posts', args=[slug])
+            return redirect(redirect_url)
 
 
         if "editComment_form" in request.POST:

@@ -50,21 +50,22 @@ function validateComment() {
 
 class ConfirmationSimpleFactory{
 
+
   createConfirmationMessage(action) {
     var confirmationMessage;
   
     if (action.startsWith("banUser")) 
     {
-      confirmationMessage = "Are you sure you want to ban this user?";
+      confirmationMessage = new BanMessage;
     } else if (action.startsWith("ignore"))
      {
-      confirmationMessage = "Are you sure you want to ignore this report?";
+      confirmationMessage = new ignoreMessage;
     } else if (action.startsWith("report")) 
     {
-      confirmationMessage = "Are you sure you want to report this user?";
+      confirmationMessage = new reportMessage;
     } else if (action.startsWith("delete"))
     {
-      confirmationMessage = "Are you sure you want to delete this item?";
+      confirmationMessage = new deleteMessage;
     }
   
     return confirmationMessage;
@@ -72,6 +73,26 @@ class ConfirmationSimpleFactory{
   
 
 };
+
+class BanMessage extends createConfirmationMessage
+{
+  confirmationMessage = "Are you sure you want to ban this user?";
+}
+
+class reportMessage extends createConfirmationMessage
+{
+  confirmationMessage = "Are you sure you want to report this user?";
+}
+
+class deleteMessage extends createConfirmationMessage
+{
+  confirmationMessage = "Are you sure you want to delete this item?";
+}
+
+class ignoreMessage extends createConfirmationMessage
+{
+  confirmationMessage = "Are you sure you want to ignore this report?";
+}
 
 function confirmAction(event) {
   var action = event.submitter.name;
