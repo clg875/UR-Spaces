@@ -250,7 +250,7 @@ footer {
   border-radius: 10px;
 }
 
-footer a:link {
+#footer_link {
   color: white;
   text-decoration: none;
   font-size: 16px;
