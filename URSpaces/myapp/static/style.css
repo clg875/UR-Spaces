@@ -249,10 +249,10 @@ footer {
   justify-content: space-around;
   border-radius: 10px;
 }
-
+/*  footlinks ID */
 #footer_link {
   color: white;
-  text-decoration: none;
+  text-decoration: underline;;
   font-size: 16px;
 }
 
@@ -267,7 +267,7 @@ a:visited {
 }
 
 a:hover {
-    text-decoration: none;
+    text-decoration: underline;
     color: #dcdbff;
 }
 
