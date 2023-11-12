@@ -27,7 +27,7 @@ header {
   background-color: #5eb805;
   border-radius: 10px;
   position: relative;
-  left: -30px; 
+ /* left: -30px; */
   
 }
 
@@ -186,7 +186,7 @@ form p {
 
 .forums span {
   font-size: 16px;
-  color: #999;
+  color: rgb(72, 42, 42);
   margin-bottom: 10px;
   margin-top: 10px;
   margin-right: 10px;
@@ -205,7 +205,7 @@ form p {
 
 .date {
   font-size: 15px;
-  color: rgb(146, 145, 145);
+  color: rgb(72, 42, 42);
 }
 
 .item2 {
