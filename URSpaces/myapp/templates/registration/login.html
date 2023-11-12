@@ -17,25 +17,18 @@
       <h1>LOGIN</h1>
     </header> 
 
-    <!-- <aside>
-      <div class="user-panel">
-        <i class="fa-regular fa-circle-user"></i><a href="user.html"> Username </a> 
-        <i class="fa-solid fa-gear"></i><a href="setting.html"> Settings </a>
-        <i class="fa-solid fa-arrow-right-from-bracket"></i><a href="login.html"> Log out </a>
-      </div>
-    </aside>  -->
     <main>
         <form class="info" id="form" method="post" >
           {% csrf_token %}
           
             <table>
-                <!-- <tr>
-                    <td>&nbsp;</td>
-                    <td><label id="msg_loginEmail" class="err_msg"></label></td>
-                </tr> -->
+
                 {% if error %}
                 <p style="color: red">Username or password is incorrect. Note: Username Is Case Sensitive.
                   Please try again.</p>
+                {%endif%}
+                {% if banned %}
+                <p style="color: red">Your account has been banned.</p>
                 {%endif%}
                 <tr>
                     <td>Username: </td>

@@ -17,16 +17,32 @@ def signin(request):
     username = request.POST.get('username')
     password = request.POST.get('pwd')
     user = authenticate(request, username=username, password=password)
+    banned = False
+    er = False
+    
     if user is not None:
-        login(request, user)
-        return redirect('index')
-        # return render(request, "index.html")
-        ...
+    
+        currentUser = User.objects.get(username = user)
+        try:
+            student = Student.objects.get(User_ID = currentUser)
+        except:
+            student = None
+
+        if student is not None:
+            if student.banned == False:
+                login(request, user)
+                return redirect('index')
+            else:
+                banned = True
+                return render(request, "registration/login.html", {"error": er, "banned": banned})
+        else:
+            login(request, user)
+            return redirect('index')
+
     else:
-        er = False
         if username is not None and password is not None:
             er = True
-        return render(request, "registration/login.html", {"error": er})
+        return render(request, "registration/login.html", {"error": er, "banned": banned})
   
 def signupPage(request):
     if request.method == 'POST':
