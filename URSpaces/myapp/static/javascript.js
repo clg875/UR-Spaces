@@ -68,30 +68,47 @@ class ConfirmationSimpleFactory{
       confirmationMessage = new deleteMessage;
     }
   
-    return confirmationMessage;
+    return confirmationMessage.confirmationMessage;
   };
   
-
 };
 
-class BanMessage extends createConfirmationMessage
-{
-  confirmationMessage = "Are you sure you want to ban this user?";
+class ConfirmationMessage {
+  constructor(message) {
+    this.confirmationMessage = message;
+  }
 }
 
-class reportMessage extends createConfirmationMessage
+class BanMessage extends ConfirmationMessage
 {
-  confirmationMessage = "Are you sure you want to report this user?";
+  constructor() {
+    var message = "Are you sure you want to ban this user?";
+    super(message);
+  }
 }
 
-class deleteMessage extends createConfirmationMessage
+class reportMessage extends ConfirmationMessage
 {
-  confirmationMessage = "Are you sure you want to delete this item?";
+  constructor() {
+    var message ="Are you sure you want to report this user?";
+    super(message);
+  }
 }
 
-class ignoreMessage extends createConfirmationMessage
+class deleteMessage extends ConfirmationMessage
 {
-  confirmationMessage = "Are you sure you want to ignore this report?";
+  constructor() {
+    var message = "Are you sure you want to delete this item?";
+    super(message);
+  }
+}
+
+class ignoreMessage extends ConfirmationMessage
+{
+  constructor() {
+    var message ="Are you sure you want to ignore this report?";
+    super(message);
+  }
 }
 
 function confirmAction(event) {
