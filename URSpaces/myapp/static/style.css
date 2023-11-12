@@ -312,13 +312,8 @@ a:active {
 }
 
 .comment-actions {
-  display: flex; /* This will line up your items horizontally */
-  justify-content: flex-end; /* This will align the buttons to the right */
-  align-items: center; /* This will vertically align your items in the middle */
-  gap: 10px; /* This adds some space between your buttons */
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
 }
 
-.btn2 {
-  /* Remove 'float: right;' if it's not needed elsewhere, as flex will take care of alignment */
-  transition-duration: 0.4s;
-}
