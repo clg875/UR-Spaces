@@ -43,7 +43,7 @@
 
           <!-- Post Buttons available-->
           {%if  post.User_ID.User_ID.username  == request.user.username or moderator is not None%}
-          <form action="." method="POST" onsubmit="return confirmDelete();">
+          <form action="." method="POST" onsubmit="return confirmAction(event);">
             {% csrf_token %}
             <input type="submit" value="Delete Post" class="btn2" name="deletePost_btn" >
           </form>
@@ -54,9 +54,9 @@
             <input onclick="reveal()", type="button" value="Edit Post" class="btn2">
             {%else%}
               {%if post.reported == False%} 
-                <form action="." method="POST" id="reportPostForm" onsubmit="return confirmReport()">
+                <form action="." method="POST" id="reportPostForm" onsubmit="return confirmAction(event)">
                 {% csrf_token %}
-                <input type="submit" value="Report Post" class="btn2" name="reportPost_btn">
+                <input type="submit" value="Report User" class="btn2" name="reportPost_btn">
                 </form>
                 {%else %}
                 <div class="post-item">
@@ -66,7 +66,7 @@
 
             {% endif %}
           {%else %}
-          <form action="{% url 'report_update' post.id %}" method="POST" onsubmit="return confirmBanUser(event)" >
+          <form action="{% url 'report_update' post.id %}" method="POST" onsubmit="return confirmAction(event)" >
             {% csrf_token %}
             <input type="submit" name="banUserPost_btn" value="Ban User" class="btn2">
           </form>
@@ -116,7 +116,7 @@
 
             <!-- Comment Buttons available-->            
             {%if  field.User_ID.User_ID.username  == request.user.username or moderator is not None%}            
-            <form action="{% url 'comment_update' post.slug  field.id %}" method="POST" id="deleteCommentForm" onsubmit="return confirmDelete();">
+            <form action="{% url 'comment_update' post.slug  field.id %}" method="POST" id="deleteCommentForm" onsubmit="return confirmAction(event);">
             {% csrf_token %}
             <input type="submit" value="Delete Comment" class="btn2" name="deleteComment_btn">
             </form>
@@ -127,7 +127,7 @@
               <input type="button", onclick="revealComment('field{{field.id}}', 'field{{firstCommentId}}')", value="Edit Comment" class="btn2">
               {%else%}
                 {%if field.reported == False%} 
-                <form action="{% url 'comment_update' post.slug  field.id %}" method="POST" id="reportCommentForm" onsubmit="return confirmReport()">
+                <form action="{% url 'comment_update' post.slug  field.id %}" method="POST" id="reportCommentForm" onsubmit="return confirmAction(event)">
                   {% csrf_token %} 
                 <input type="submit" value="Report User" class="btn2" name="reportComment_btn">
                 </form>
@@ -139,7 +139,7 @@
 
               {% endif %}
             {%else %}
-            <form action="{% url 'report_update' field.id  %}" method="POST" onsubmit="return confirmBanUser(event)">
+            <form action="{% url 'report_update' field.id  %}" method="POST" onsubmit="return confirmAction(event)">
               {% csrf_token %}
               <input button type="submit" name="banUserComment_btn" value="Ban User" class="btn2">
             </form>

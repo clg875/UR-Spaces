@@ -21,7 +21,7 @@
               <form action="." method="POST" id="reportPostForm" >
               {% csrf_token %}
               <div class="user-item">
-              <input type="submit" value="Report User" class="btn2" name="reportUser_btn" onsubmit="return confirmReport()">
+              <input type="submit" value="Report User" class="btn2" name="reportUser_btn" onsubmit="return confirmAction(event)">
               </div>
               </form>
               {%else %}
@@ -30,7 +30,7 @@
               </div>
               {% endif %}
             {%else %}
-            <form action="{% url 'report_update' student.id %}" method="POST" onsubmit="return confirmBanUser(event)">
+            <form action="{% url 'report_update' student.id %}" method="POST" onsubmit="return confirmAction(event)">
               {% csrf_token %}
               <div class="user-item">
                 <input type="submit" name="banUser_btn" value="Ban User" class="btn2">

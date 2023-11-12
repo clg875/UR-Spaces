@@ -48,25 +48,35 @@ function validateComment() {
         return true; 
 }
 
+class ConfirmationSimpleFactory{
 
-function confirmDelete() {
-  return confirm("Are you sure you want to delete?");
-}
-
-function confirmBanUser(event){
-  var action = event.submitter.name;
-
-  if (action === "banUserComment_btn" || action === "banUser_btn" || action === "banUserPost_btn") {
-    confirmationMessage = "Are you sure you want to ban this user?";
-    } else if (action === "ignoreComment_btn" || action === "ignoreUser_btn" || action === "ignorePost_btn" ) {
-    confirmationMessage = "Are you sure you want to ignore this report?";
+  createConfirmationMessage(action) {
+    var confirmationMessage;
+  
+    if (action.startsWith("banUser")) 
+    {
+      confirmationMessage = "Are you sure you want to ban this user?";
+    } else if (action.startsWith("ignore"))
+     {
+      confirmationMessage = "Are you sure you want to ignore this report?";
+    } else if (action.startsWith("report")) 
+    {
+      confirmationMessage = "Are you sure you want to report this user?";
+    } else if (action.startsWith("delete"))
+    {
+      confirmationMessage = "Are you sure you want to delete this item?";
     }
+  
+    return confirmationMessage;
+  };
+  
 
-    return confirm(confirmationMessage);
+};
 
-}
+function confirmAction(event) {
+  var action = event.submitter.name;
+  var confirmationCreation = new ConfirmationSimpleFactory();
+  var confirmationMessage = confirmationCreation.createConfirmationMessage(action);
 
-
-function confirmReport() {
-  return confirm("Are you sure you want to report this user?");
+  return confirm(confirmationMessage);
 }
