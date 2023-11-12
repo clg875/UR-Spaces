@@ -11,8 +11,12 @@ from django.urls import reverse
 from django.utils.crypto import get_random_string
 from django.views.generic.detail import DetailView
 
-# Create your views here.
 
+#Login function
+# Displays login.html
+#Processes the username and password entered by the user 
+#Redirects to the index page if login is sucessful or displays an error message if not
+#Does not allow login if the Student has been banned and displays a message saying so 
 def signin(request):
     username = request.POST.get('username')
     password = request.POST.get('pwd')
@@ -43,7 +47,12 @@ def signin(request):
         if username is not None and password is not None:
             er = True
         return render(request, "registration/login.html", {"error": er, "banned": banned})
-  
+
+
+#Signup function
+# Displays signup.html 
+#Processes the username, email, password, and confirmed password entered by the user 
+#Redirects to the login page if sign up is sucessful or displays an error message if not  
 def signupPage(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -54,19 +63,21 @@ def signupPage(request):
             account = User.objects.get(username = username)
             account.email = email
             account.save()
-            #raw_password = form.cleaned_data.get('password')
-            #user = authenticate(username=username, password=raw_password)
             new_student = Student()
             new_student.User_ID = User.objects.get(username = username)
             new_student.bio = "Please add bio"
             new_student.slug = slugify(username)
             new_student.save()
-            #login(request, user)
             return redirect('login')
     else:
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
 
+#Report function
+#Displays report.html with all student, post and comments that have been reported by students
+#Processes banning the user if a ban button has been pressed by the moderator
+#Processes ignoring the report if an ignore button has been pressed by the moderator
+#Redirects to report page after any processes 
 @login_required
 def report(request, pk=None):
     students = Student.objects.filter(reported=True, banned=False)
@@ -119,29 +130,44 @@ def report(request, pk=None):
         "comments": comments,
 
     }
-
-
-
     return render(request, "report.html", context)
 
+#Help function
+#Displays help.html
 @login_required
 def help(request):
     return render(request, "help.html")
 
+#Service function
+#Displays service.html
 @login_required
 def service(request):
     return render(request, "service.html")
 
+#About function
+#Displays about.html
 @login_required
 def about(request):
     return render(request, "about.html")
 
+#Index function
+#Displays the homepage index.html with all the existing Subforums
+#Processes a subforum being clicked 
+#Redirects to clicked subforum page
 @login_required
 def index(request):
     sub = SubForum.objects.all()
     return render(request, "index.html", {"indexs": sub})
-    #return render(request, "index.html")
 
+
+#Posts function
+#Displays posts.html with post and any comments related to the post
+#Processes deleting a comment or post if the corresponding button has been pressed
+#Processes locking and unlocking a post if the corresponding button has been pressed by the moderator
+#Processes adding and editing a comment if the corresponding field on the page has been filled out by a student
+#Processes reporting the post or comment if the corresponding button has been pressed by the student
+#Processes editing a post if the corresponding field on the page has been filled out by a student
+#Redirects to the same post page unless the post is deleted, then it redirects to the subforum page
 @login_required
 def posts(request, slug, pk =None):
     post = get_object_or_404(Posts, slug=slug)
@@ -321,7 +347,10 @@ def posts(request, slug, pk =None):
             
     return render(request, "posts.html", context)
 
-#avatar picture is not saving corectly
+#Setting function
+#Displays setting.html 
+#Processes changing a students bio if the corresponding field on the page has been filled out by a student
+#Redirects to the student's profile page
 @login_required
 def settings(request):
     user = request.user
@@ -335,6 +364,8 @@ def settings(request):
             updateProfile.pk = student.pk
             updateProfile.User_ID = student.User_ID
             updateProfile.slug =student.slug
+            updateProfile.banned = student.banned
+            updateProfile.reported = student.reported
             updateProfile.save()
         return redirect("profile")
         
@@ -344,7 +375,8 @@ def settings(request):
     }
     return render(request, "registration/setting.html", context)
 
-#not working correctly yet
+#Profile function
+#Displays profile.html with the student's bio and any posts the student has made or a message about moderator accounts
 @login_required
 def profile(request):
     user = request.user
@@ -371,6 +403,10 @@ def profile(request):
     }
     return render(request, "profile.html", context)
 
+#Profile function
+#Displays profile.html with the selected student's bio and any posts the student has made 
+#Processes reporting the student if the corresponding button has been pressed by the current student
+#Redirects to the same user page after processes
 @login_required
 def user(request, slug):
     student= get_object_or_404(Student, slug=slug)
@@ -406,7 +442,11 @@ def user(request, slug):
     return render(request, "user.html", context)
  
 
-#error with empty values 
+#Subforum function
+#Displays subfroum.html with posts in that subforum
+#Processes pinning and unpinning a post if the corresponding button has been pressed by the moderator
+#Processes adding a post if the corresponding field on the page has been filled out by a student
+#Redirects to the same subforum page after processes
 @login_required
 def subforum(request, slug, pk=None):
     forum = get_object_or_404(SubForum, slug=slug)
@@ -451,9 +491,6 @@ def subforum(request, slug, pk=None):
                 pinPost.save()
                 pinnedPosts = Posts.objects.filter(SubForum_ID = forum, User_ID__banned =False, pin =True)
                 unpinnedPosts = Posts.objects.filter(SubForum_ID = forum, User_ID__banned =False, pin =False)
-
-
-
     
     try:
         moderator = Moderator.objects.get(User_ID = currentUser)
