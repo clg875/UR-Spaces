@@ -108,7 +108,10 @@
               <span> {{field.com_contents}} </span>
             </div>
             <div>
-              <input type="button" value="Likes: 10" class="btn1"><i class="fa-regular fa-heart"></i>
+              <form action="{% url 'comment_like' field.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" name="comment_id" value="{{field.id}}" class="btn btn-info">Like</button> - {{ field.total_likes }} Likes
+              </form>
             </div>
 
             <!-- Comment Buttons available-->            
@@ -118,7 +121,7 @@
             <input type="submit" value="Delete Comment" class="btn2" name="deleteComment_btn">
             </form>
             {%endif%}
-
+            
             {%if moderator is None %}
               {%if  field.User_ID.User_ID.username  == request.user.username%}
               <input type="button", onclick="revealComment('field{{field.id}}', 'field{{firstCommentId}}')", value="Edit Comment" class="btn2">

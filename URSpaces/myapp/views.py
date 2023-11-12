@@ -438,7 +438,7 @@ def CommentLike(request, pk):
     else:
         post.likes.add(request.user)
 
-    redirect_url = reverse('post', args=[post.Post_ID.slug])
+    redirect_url = reverse('posts', args=[post.Post_ID.slug])
     return redirect(redirect_url)
 
 
