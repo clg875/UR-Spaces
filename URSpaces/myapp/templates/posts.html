@@ -115,7 +115,7 @@
             </div>
 
             <!-- Comment Buttons available-->  
-           
+           <div class="comment-actions">
             {%if  field.User_ID.User_ID.username  == request.user.username or moderator is not None%}            
             <form action="{% url 'comment_update' post.slug  field.id %}" method="POST" id="deleteCommentForm" onsubmit="return confirmAction(event);">
             {% csrf_token %}
@@ -125,7 +125,7 @@
             
             {%if moderator is None %}
               {%if  field.User_ID.User_ID.username  == request.user.username%}
-             <input type="button", onclick="revealComment('field{{field.id}}', 'field{{firstCommentId}}')", value="edit Comment" class="btn2">
+             <input type="button", onclick="revealComment('field{{field.id}}', 'field{{firstCommentId}}')", value="Edit Comment" class="btn2">
               {%else%}
                 {%if field.reported == False%} 
                 <form action="{% url 'comment_update' post.slug  field.id %}" method="POST" id="reportCommentForm" onsubmit="return confirmAction(event)">
@@ -139,6 +139,7 @@
                 {% endif %}
 
               {% endif %}
+               </div>
             {%else %}
             <form action="{% url 'report_update' field.id  %}" method="POST" onsubmit="return confirmAction(event)">
               {% csrf_token %}
