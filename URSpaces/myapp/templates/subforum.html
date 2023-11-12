@@ -9,7 +9,7 @@
     <main>
 
       {%if moderator is None%}
-      <button onclick="reveal()", type="submit", name="createPost", value="createPost">Create New Post</button>
+      <button onclick="reveal()", type="submit", name="createPost", value="createPost" class="post-btn">Create New Post</button>
       {%endif%}
   <div id = "reveal" style="display: none">
       <form action="." method="POST"   onsubmit="return validatePost()">

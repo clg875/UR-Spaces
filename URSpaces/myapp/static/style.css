@@ -131,6 +131,17 @@ form p {
     color: #dcdbff;
 }
 
+.post-btn {
+  background-color: transparent;
+  color: black;
+  border: 1px solid #0f3e70;
+  border-radius: 8px;
+  font-family: monospace;
+  font-size: 15px;
+  padding: 5px 10px;
+  margin-left: 10px;
+}
+
 .forums h2 {
   font-size: 30px;
   margin-bottom: 15px;
