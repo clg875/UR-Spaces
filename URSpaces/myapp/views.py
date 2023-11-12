@@ -519,6 +519,10 @@ def subforum(request, slug, pk=None):
     }
     return render(request, "subforum.html", context)
 
+#PostLike function
+#Subject view for Likes on Posts
+#Keeps track of updates to likes and redirects to the subforum page when updated.
+
 def PostLike(request, pk):
     post = get_object_or_404(Posts, id=request.POST.get('post_id'))
     if post.likes.filter(id=request.user.id).exists():
@@ -528,6 +532,9 @@ def PostLike(request, pk):
     redirect_url = reverse('subforum', args=[post.SubForum_ID.slug])
     return redirect(redirect_url)
 
+#CommentLike function
+#Subject view for Likes on Comments
+#Keeps track of updates to likes and redirects to the post page when updated.
 def CommentLike(request, pk):
     post = get_object_or_404(Comment, id=request.POST.get('comment_id'))
     if post.likes.filter(id=request.user.id).exists():
@@ -538,7 +545,9 @@ def CommentLike(request, pk):
     redirect_url = reverse('posts', args=[post.Post_ID.slug])
     return redirect(redirect_url)
 
-
+#PostDetailView function
+#Observer view for Likes on Posts
+#Passes information on total likes to the observer webpage
 class PostDetailView(DetailView):
     model = Posts
     #template_name = subforum.html
@@ -551,7 +560,10 @@ class PostDetailView(DetailView):
         total_likes = stuff.total_likes()
         context["total_likes"] = total_likes
         return context
-    
+
+#CommentDetailView function
+#Observer view for Likes on Comments
+#Passes information on total likes to the observer
 class CommentDetailView(DetailView):
     model = Comment
     # template_name = MainApp/BlogPost_detail.html
