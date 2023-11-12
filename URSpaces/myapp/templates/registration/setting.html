@@ -16,35 +16,11 @@
                 {{ field.label_tag }}<br>
                 {{ field }}
               {% for error in field.errors %}
-              <!-- {% if field.help_text %}
-                  <small style="color: grey">{{ field.help_text }}</small>
-                {% endif %} -->
               <p style="color: red">{{ error }}</p>
               {% endfor %}
               </p>
               {% endfor %}
             <input type="submit" value="Save Changes" class="btn">
-           <!-- <div class="settings">
-          <p> Upload new Profile Picture: </p> 
-          <input type="file" placeholder="Drop file here or click to upload" >
-        </div>
-        <div class="settings">
-          <p> Preview: </p>
-          <span> Picture </span>
-        </div>
-        <div class="settings">
-          <p> Edit Bio: </p>
-          <textarea name="" id="message" cols="50" rows="3" placeholder="Input text here..."></textarea>
-        </div>
-        <div class="settings">
-          <p> Change Password: </p>
-          <input type="password" placeholder="New password">
-        </div>
-        <div class="settings">
-          <input type="submit" value="Save Changes" class="btn">
-          <input type="reset" value="Reset" class="btn">
-          <input type="button" value="Delete Profile" class="btn2">
-        </div> -->
           </form>
       </section>
     </main>

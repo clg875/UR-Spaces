@@ -390,13 +390,53 @@ def user(request, slug):
 
 #error with empty values 
 @login_required
-def subforum(request, slug):
+def subforum(request, slug, pk=None):
     forum = get_object_or_404(SubForum, slug=slug)
     post = Posts.objects.filter(SubForum_ID = forum, User_ID__banned =False)
+    pinnedPosts = Posts.objects.filter(SubForum_ID = forum, User_ID__banned =False, pin =True)
+    unpinnedPosts = Posts.objects.filter(SubForum_ID = forum, User_ID__banned =False, pin =False)
     user = request.user
     currentUser = User.objects.get(username = user)
     error = False
 
+    if post.exists():
+        if pk:
+            updatePost = post.get(pk = pk)
+            if "pinPost" in request.POST:
+                pinPost = Posts.objects.get(pk = pk)
+                pinPost.User_ID = updatePost.User_ID
+                pinPost.SubForum_ID = forum
+                pinPost.post_name =updatePost.post_name
+                pinPost.contents =updatePost.contents
+                pinPost.post_date =updatePost.post_date
+                pinPost.count_likes = updatePost.count_likes
+                pinPost.reported = updatePost.reported
+                pinPost.pin = True
+                pinPost.locked = updatePost.locked
+                pinPost.slug = updatePost.slug
+                pinPost.save()
+                pinnedPosts = Posts.objects.filter(SubForum_ID = forum, User_ID__banned =False, pin =True)
+                unpinnedPosts = Posts.objects.filter(SubForum_ID = forum, User_ID__banned =False, pin =False)
+
+            if "unpinPost" in request.POST:
+                pinPost = Posts.objects.get(pk = pk)
+                pinPost.User_ID = updatePost.User_ID
+                pinPost.SubForum_ID = forum
+                pinPost.post_name =updatePost.post_name
+                pinPost.contents =updatePost.contents
+                pinPost.post_date =updatePost.post_date
+                pinPost.count_likes = updatePost.count_likes
+                pinPost.reported = updatePost.reported
+                pinPost.pin = False
+                pinPost.locked = updatePost.locked
+                pinPost.slug = updatePost.slug
+                pinPost.save()
+                pinnedPosts = Posts.objects.filter(SubForum_ID = forum, User_ID__banned =False, pin =True)
+                unpinnedPosts = Posts.objects.filter(SubForum_ID = forum, User_ID__banned =False, pin =False)
+
+
+
+    
     try:
         moderator = Moderator.objects.get(User_ID = currentUser)
     except:
@@ -418,6 +458,8 @@ def subforum(request, slug):
         "post" : post,
         "error": error,
         "moderator": moderator,
+        "pinnedPosts": pinnedPosts,
+        "unpinnedPosts": unpinnedPosts,
 
     }
     return render(request, "subforum.html", context)

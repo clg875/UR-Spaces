@@ -22,11 +22,6 @@ class Student(models.Model):
     reported = models.BooleanField(default=False)
     slug = models.SlugField(max_length=400, unique=True, blank=True)
 
-    # def save(self, *args, **kwargs):
-    #     if not self.slug:
-    #         self.slug = slugify(self.User_ID)
-    #         super(Student, self).save(*args, **kwargs)
-
     def get_url(self):
         return reverse("user", kwargs={
             "slug":self.slug
@@ -71,11 +66,6 @@ class Posts(models.Model):
     slug = models.SlugField(max_length=400, unique=True, blank=True)
     likes = models.ManyToManyField(User, related_name="post_like")
 
-    # def save(self, *args, **kwargs):
-    #     if not self.slug:
-    #         self.slug = slugify(self.post_name)
-    #         super(Posts, self).save(*args, **kwargs)
-
     def total_likes(self):
         return self.likes.count()
     
@@ -92,7 +82,6 @@ class Posts(models.Model):
         return Comment.objects.filter(Post_ID = self, User_ID__banned =False).count()
     
 class Comment(models.Model):
-    #Comment_ID = models.IntegerField(primary_key=True)
     Post_ID = models.ForeignKey(Posts, on_delete=models.CASCADE)
     User_ID = models.ForeignKey(Student, on_delete=models.CASCADE)
     count_likes = models.IntegerField(default=0)
@@ -109,7 +98,6 @@ class Comment(models.Model):
         return f"{self.Post_ID} {self.User_ID}"
 
 class Like(models.Model):
-    #Like_ID = models.IntegerField(primary_key=True)
     Post_ID = models.ForeignKey(Posts, on_delete=models.CASCADE)
     User_ID = models.ForeignKey(User, on_delete=models.CASCADE)
     Comment_ID = models.ForeignKey(Comment, on_delete=models.CASCADE)

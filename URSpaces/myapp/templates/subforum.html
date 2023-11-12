@@ -35,8 +35,47 @@
     </form>
   </div>
 
-      {% for field in post %}
+      {% for field in pinnedPosts %}
         <section class="box" >
+          {%if moderator is not None%}
+          <form action="{% url 'subforum_pin' forum.slug field.pk %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" name="unpinPost" value="unpinPost" class="btn ">Unpin Post</button>
+          </form>
+          {% endif %} 
+
+        <div class="post-item"> 
+          {%if  field.User_ID.User_ID.username  == request.user.username%}
+                <a href="{% url 'profile' %}" class="name"> {{field.User_ID.User_ID.username}}  </a>
+          {%else%} 
+                <a href="{{field.User_ID.get_url}}" class="name"> {{field.User_ID.User_ID.username}}  </a>
+          {% endif %} 
+            <span class="date"> {{field.post_date}} </span>
+        </div>
+        <div class="post-item">
+          <a href="{{field.get_url}}" class="item2"> {{field.post_name}}  </a>
+          </div>
+        <div class="post-item">
+          <span> {{field.contents}}</span>
+        </div>
+        <div>
+          <form action="{% url 'post_like' field.id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" name="post_id" value="{{field.id}}" class="btn btn-info">Like</button> - {{ field.total_likes }} Likes
+          </form>
+          <a href="{{field.get_url}}"> Comments: {{field.num_comments}} </a>
+      </section>
+      {% endfor %}
+
+      
+      {% for field in unpinnedPosts%}
+        <section class="box" >
+          {%if moderator is not None%}
+          <form action="{% url 'subforum_pin' forum.slug field.pk %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" name="pinPost" value="pinPost" class="btn ">Pin Post</button>
+          </form>
+          {% endif %}
         <div class="post-item"> 
           {%if  field.User_ID.User_ID.username  == request.user.username%}
                 <a href="{% url 'profile' %}" class="name"> {{field.User_ID.User_ID.username}}  </a>

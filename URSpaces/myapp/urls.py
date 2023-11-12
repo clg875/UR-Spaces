@@ -17,6 +17,7 @@ urlpatterns = [
     path("user/<slug>/", user, name="user"),
     path("profile/", profile, name="profile"),
     path("subforum/<slug>/", subforum, name="subforum"),
+    path("subforum/<slug>/<pk>", subforum, name="subforum_pin"),
     path("report/", report, name="report"),
     path('report/<pk>/', report, name='report_update'),
     path('like/<int:pk>', PostLike, name='post_like'),
