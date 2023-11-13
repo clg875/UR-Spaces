@@ -6,6 +6,14 @@ body {
   padding: 0;
 }
 
+form label {
+  width: 100px;
+  border: 1px solid black;
+  text-align: right;
+  background-color: black;
+  color: white;
+}
+
 #container {
   display: grid;
   grid-template-areas:
