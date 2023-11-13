@@ -235,7 +235,7 @@ form p {
 
 .sub-box {
     width: 85%;
-    float: left;
+    float: right;
     display: flex;
     flex-direction: column;
     border-radius: 10px;
