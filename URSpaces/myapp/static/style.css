@@ -8,11 +8,12 @@ body {
 
 form label {
   width: 100px;
-  border: 1px solid black;
+  /*border: 1px solid black;*/
   text-align: right;
-  background-color: black;
-  color: white;
+  /*background-color: black;*/
+  color: black;
 }
+
 
 #container {
   display: grid;
