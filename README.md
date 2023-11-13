@@ -8,6 +8,8 @@ Eileen12345678 = Eileen Guo,
 xfy246 = Xialei Fang,
 maj448 = Marissa Joyce
 
+#Python download required. Recommended 3.12.0
+
 #Running the website is in URSpaces
 cd URSpaces
 
