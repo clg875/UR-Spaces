@@ -120,12 +120,15 @@
             <form action="{% url 'comment_update' post.slug  field.id %}" method="POST" id="deleteCommentForm" onsubmit="return confirmAction(event);">
             {% csrf_token %}
             <input type="submit" value="Delete Comment" class="btn2" name="deleteComment_btn">
+            {%if moderator is None %}
+            <input type="button", onclick="revealComment('field{{field.id}}', 'field{{firstCommentId}}')", value="Edit Comment" class="btn2">
+            {%endif%}
             </form>
             {%endif%}
             
             {%if moderator is None %}
               {%if  field.User_ID.User_ID.username  == request.user.username%}
-             <input type="button", onclick="revealComment('field{{field.id}}', 'field{{firstCommentId}}')", value="Edit Comment" class="btn2">
+             <!-- <input type="button", onclick="revealComment('field{{field.id}}', 'field{{firstCommentId}}')", value="Edit Comment" class="btn2"> -->
               {%else%}
                 {%if field.reported == False%} 
                 <form action="{% url 'comment_update' post.slug  field.id %}" method="POST" id="reportCommentForm" onsubmit="return confirmAction(event)">
