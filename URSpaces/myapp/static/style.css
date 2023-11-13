@@ -140,6 +140,12 @@ form p {
   font-size: 15px;
   padding: 5px 10px;
   margin-left: 10px;
+  transition-duration: 0.4s;
+}
+
+.post-btn:hover {
+  background-color: #0f3e70;
+  color: #dcdbff;
 }
 
 .forums h2 {
