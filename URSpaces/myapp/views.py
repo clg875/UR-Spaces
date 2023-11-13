@@ -179,7 +179,7 @@ def posts(request, slug, pk =None):
     form = UpdatePostForm(request.POST)
 
     if comments.exists():
-        firstCommentId = comments[0].id
+        firstCommentId = comments[0].pk
 
         if pk:
             commentform = UpdateCommentForm(instance=Comment.objects.get(pk=pk), data=request.POST)
@@ -207,7 +207,7 @@ def posts(request, slug, pk =None):
 
     if "deleteComment_btn" in request.POST:
             if comments.exists() and pk is None:
-                CommentId = comments[0].id
+                CommentId = comments[0].pk
             else:
                 CommentId = pk
             deleteComment = Comment.objects.get(pk = CommentId)
@@ -282,7 +282,7 @@ def posts(request, slug, pk =None):
 
         if "reportComment_btn" in request.POST:
             if comments.exists() and pk is None:
-                CommentId = comments[0].id
+                CommentId = comments[0].pk
             else:
                 CommentId = pk
             reportComment = Comment.objects.get(pk = CommentId)
