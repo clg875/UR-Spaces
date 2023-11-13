@@ -1,1 +1,1 @@
-web: gunicorn URSpacesIn.wsgi --log-file -
+web: gunicorn URSpaces.wsgi --log-file -
