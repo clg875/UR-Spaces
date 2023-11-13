@@ -97,15 +97,3 @@ class Comment(models.Model):
     def __str__(self):
         return f"{self.Post_ID} {self.User_ID}"
 
-class Like(models.Model):
-    Post_ID = models.ForeignKey(Posts, on_delete=models.CASCADE)
-    User_ID = models.ForeignKey(User, on_delete=models.CASCADE)
-    Comment_ID = models.ForeignKey(Comment, on_delete=models.CASCADE)
-    likes_count = models.IntegerField()
-
-    def __str__(self):
-        return f"{self.Post_ID} {self.User_ID}"
-
-
-
-

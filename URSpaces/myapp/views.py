@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from myapp.forms import SignUpForm , UpdateProfileForm , CreateNewPost , UpdatePostForm, UpdateCommentForm, ReportPostForm#, DeletePostForm
-from myapp.models import Student , SubForum, Posts, Comment, Like, Moderator 
+from myapp.models import Student , SubForum, Posts, Comment, Moderator 
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify

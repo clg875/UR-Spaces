@@ -10,9 +10,18 @@ maj448 = Marissa Joyce
 
 #Running the website is in URSpaces
 cd URSpaces
+
+#required files
+pip install django
+pip install django-crispy-forms
+pip install django-resized
+pip install  Pillow
+pip install crispy-bootstrap4
+
 #to make migrations
 py manage.py makemigrations
 py manage.py migrate
+
 #to run server
 py manage.py runserver
 
