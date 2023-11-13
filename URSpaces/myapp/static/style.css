@@ -323,9 +323,9 @@ a:active {
   gap: 10px;
 }
 
-.like-item {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 15px;
+.like-item {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 15px;
 }
